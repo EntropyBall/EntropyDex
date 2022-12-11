@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #333;
+  color: white;
+  width: 100%;
+}
+
+.items {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 170px);
+  gap: 10px 10px;
+  width: 100%;
+}
+
+.item {
+  border: 1px solid gray;
+  border-radius: 4px;
+  width: 150px;
+  height: 150px;
+  margin: 5px;
+}
+
+.item img {
+  max-width: 80%;
+  height: 60%;
+}
