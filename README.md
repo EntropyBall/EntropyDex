@@ -13,5 +13,6 @@ CORS: Use for the connection between the client app and the back end app
 nodemon: For development purporses
 
 make a component that fetch the api or fetch api in home and display content
+
 ## DATABASE
 MongoDB
