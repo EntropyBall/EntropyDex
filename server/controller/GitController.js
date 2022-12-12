@@ -1,10 +1,3 @@
-/* require("dotenv").config()
-const stream = require('stream')
-const { promisify } = require('util')
-const fetch = require('node-fetch')
-const axios = require('axios')
-const { Octokit } = require('@octokit/rest')
-const fs = require('fs') */
 import dotenv from "dotenv/config"
 import fs from 'fs'
 import got from 'got'
