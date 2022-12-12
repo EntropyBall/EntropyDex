@@ -1,4 +1,5 @@
 // require('../dotenv').config()
+import dotenv from "dotenv/config"
 // === Mongoose IMPORT === //
 import mongoose from 'mongoose'
 import PokemonModel from '../models/Pokemons.js'
@@ -13,11 +14,11 @@ const __dirname = path.dirname(__filename)
 
 // === Mongoose CONNECTION === //
 const connectDB = async () => {
-    // Server
-    // mongoose.connect("mongodb+srv://Everywhere:entromonTII13@entropycluster.ck82lk6.mongodb.net/EntropyDB?retryWrites=true&w=majority") // connect to the Mongo DB
-    // Local
+    // Live Server
+    // mongoose.connect(process.env.LIVE_MONGODB_URL) // connect to the Mongo DB
+    // Local Server
     try {
-        await mongoose.connect("mongodb://localhost/EntropyDB")
+        await mongoose.connect(process.env.LOCAL_MONGODB_URL)
 
     } catch (err) {
         console.log(err)

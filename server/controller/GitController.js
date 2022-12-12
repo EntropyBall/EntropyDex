@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const axios = require('axios')
 const { Octokit } = require('@octokit/rest')
 const fs = require('fs') */
-
+import dotenv from "dotenv/config"
 import fs from 'fs'
 import got from 'got'
 
@@ -15,7 +15,7 @@ const GIT_URL_POGOASSETS_RAW = "https://raw.githubusercontent.com/PokeMiners/pog
 const IMAGES_FOLDER_PATH = "../images"
 
 const octokit = new Octokit({
-    auth: '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'
+    auth: process.env.GITHUB_PERSONAL_TOKEN
 })
 /**
  * DDL a file via http get https://stackoverflow.com/questions/11944932/how-to-download-a-file-with-node-js-without-using-third-party-libraries
@@ -77,7 +77,7 @@ import { Octokit } from '@octokit/core'
 // Get content with raw_url
 const getLastCommitedImages = async () => {
     const octokit = new Octokit({
-        auth: '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'
+        auth: process.env.GITHUB_PERSONAL_TOKEN
     })
     // OCTOKIT - REFERENCE - Get the last commit id
     const ref = await octokit.request('GET /repos/{owner}/{repo}/git/refs/{ref}', {
@@ -103,7 +103,7 @@ const fetchAllImages = async () => {
     //? TODO make another function for that
     // OCTOKIT - TREES - Get ALL (2575) images but no download_url only api_url
     const octokit = new Octokit({
-        auth: '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'
+        auth: process.env.GITHUB_PERSONAL_TOKEN
     })
     // Tree_sha 'bb18b8bb221f500056b3c6f3d766eec4f3d28559' references to Images/Pokemon/Adressable Assets
     const imgs = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}{?recursive}', {
@@ -135,5 +135,5 @@ const fetchAllImages = async () => {
     })
 }
 
-// Git Token => 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
+// Git Token =>
 // Tree_sha 'bb18b8bb221f500056b3c6f3d766eec4f3d28559' references to Images/Pokemon/Adressable Assets
