@@ -1,7 +1,7 @@
 import './App.css'
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import axios from 'axios'
-import PokemonItem from './PokemonItem'
+import PokemonItem from './PokemonItem.js'
 const { v4: uuid } = require('uuid')
 
 function App() {

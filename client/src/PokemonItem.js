@@ -1,3 +1,4 @@
+import React from 'react'
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
 const PokemonItem = ({ pokemon }) => {
@@ -6,8 +7,8 @@ const PokemonItem = ({ pokemon }) => {
         <div className={`item ${pokemon.family}`}>
             {(pokemon.images.length &&
                 <LazyLoadImage
-                    // src={"http://localhost:3001/images/Pokemon/" + pokemon.images[0].filename}
-                    src={"/images/Pokemon/" + pokemon.images[0].filename}
+                    src={"http://localhost:3001/images/Pokemon/" + pokemon.images[0].filename}
+                    // src={"/images/Pokemon/" + pokemon.images[0].filename}
                     alt="pokemon.images[1]"
                 />)}
             {pokemon.dexid} - {pokemon.name} {pokemon.region}
