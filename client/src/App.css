@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --item-size: 150;
+}
+
 body {
   background-color: #333;
   color: white;
@@ -21,12 +25,14 @@ body {
 .item {
   border: 1px solid gray;
   border-radius: 4px;
-  width: 150px;
-  height: 150px;
+  width: calc(var(--item-size)* 1px + 20px);
+  height: calc(var(--item-size)* 1px + 20px);
   margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.item img {
-  max-width: 80%;
-  height: 60%;
+.pokemonImg {
+  transform: scale(calc(var(--item-size) / 256));
 }
