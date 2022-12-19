@@ -2,17 +2,23 @@ import React from 'react'
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
 const PokemonItem = ({ pokemon }) => {
+    const baseForm = pokemon.images.find(image => image.filename.split(".").length === 3)
+    console.log(baseForm)
+    const baseFormURL = baseForm ?
+        "http://localhost:3001/images/Pokemon/" + baseForm.filename :
+        ""
+
     // USE LOADING LAZY REACT https://www.youtube.com/watch?v=8viWcH5bUE4
     return (
         <div className={`item ${pokemon.family}`}>
-
-            {(pokemon.images.length &&
+            {(baseForm &&
                 <LazyLoadImage
                     className='pokemonImg'
-                    src={"http://localhost:3001/images/Pokemon/" + pokemon.images[0].filename}
-                    // src={"/images/Pokemon/" + pokemon.images[0].filename}
-                    alt="pokemon.images[1]"
-                />)}
+                    src={baseFormURL}
+                    alt={pokemon.name}
+                    loading={"lazy"}
+                />
+            )}
             {/* {pokemon.dexid} - {pokemon.name} {pokemon.region} */}
         </div>
     )
