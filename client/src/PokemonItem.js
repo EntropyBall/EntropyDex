@@ -11,6 +11,7 @@ const PokemonItem = ({ pokemon }) => {
     // USE LOADING LAZY REACT https://www.youtube.com/watch?v=8viWcH5bUE4
     return (
         <div className={`item ${pokemon.family}`}>
+            <p className='name'>{pokemon.name}</p>
             {(baseForm &&
                 <LazyLoadImage
                     className='pokemonImg'

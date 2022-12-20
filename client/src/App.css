@@ -20,6 +20,7 @@ body {
   grid-template-columns: repeat(auto-fill, 170px);
   gap: 10px 10px;
   width: 100%;
+  position: relative;
 }
 
 .item {
@@ -29,8 +30,16 @@ body {
   height: calc(var(--item-size)* 1px + 20px);
   margin: 5px;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  position: inherit;
+}
+
+.name {
+  position: absolute;
+  top: 0.3em;
+  left: 0.5em;
 }
 
 .pokemonImg {
