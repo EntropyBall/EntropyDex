@@ -24,5 +24,10 @@
         "nodemon": "^2.0.19",
         "octokit": "^2.0.10",
         "request": "^2.88.2"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "data/*"
+        ]
     }
 }
