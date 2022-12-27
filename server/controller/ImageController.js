@@ -57,7 +57,7 @@ const addImageInfos = () => {
         // console.log(currentId, prevId)
         if (currentId === prevId) {
             // UPDATE OBJECT: Add other images to the same object
-            pokemon.images.push(createImageObject(filename, parts))
+            pokemon.images.unshift(createImageObject(filename, parts))
         } else {
             // Ignore first element
             if (prevId) {

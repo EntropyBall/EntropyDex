@@ -1,5 +1,6 @@
 import dotenv from "dotenv/config"
 import db from './controller/DatabaseController.js'
+import git from './controller/GitController.js'
 import { addImageInfos } from './controller/ImageController.js'
 
 import mongoose from 'mongoose'
@@ -42,7 +43,9 @@ mongoose.connection.once('open', async () => {
         await db.initCollection()
     }
     // Update images
-    // addImageInfos()
+    addImageInfos()
+    // If (images.date === gitImages.date do no'ing)
+    // git.fetchTypeImages()
     // Drop collections
     /* const collectionName = "pokemons"
     db.dropCollection(collectionName) */

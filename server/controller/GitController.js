@@ -1,6 +1,7 @@
-import dotenv from "dotenv/config"
+import dotenv from "dotenv"
+dotenv.config()
 import fs from 'fs'
-import got from 'got'
+import { Octokit } from '@octokit/core'
 
 const GIT_URL_IMAGES = "https://api.github.com/repositories/243406442/contents/Images"
 const GIT_URL_POGOASSETS = "https://api.github.com/repos/PokeMiners/pogo_assets/contents/Images/Pokemon"
@@ -12,58 +13,37 @@ const octokit = new Octokit({
 })
 /**
  * DDL a file via http get https://stackoverflow.com/questions/11944932/how-to-download-a-file-with-node-js-without-using-third-party-libraries
- * Some URLs
- * Reference 
- * Commits https://api.github.com/repos/PokeMiners/pogo_assets/commits/{sha_commit}
+ * Some Git API URLs
+ * - User https://api.github.com/users/PokeMiners
+ * - Repos https://api.github.com/users/PokeMiners/repos
+ * - Content GM https://api.github.com/repos/PokeMiners/game_masters/contents/
+ * - Content PA https://api.github.com/repos/PokeMiners/pogo_assets/contents/
+ * With SHA 
+ * - Tree GM https://api.github.com/repos/PokeMiners/game_masters/git/trees/{tree_sha}
+ * - Tree PA https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/{tree_shat}
+ * - PA Images https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/4495d5d3a4df9f77e1db9f208d8ae2416fd7a15f
+ * - Commit PA https://api.github.com/repos/PokeMiners/pogo_assets/commits/{sha_commit}
  * 
  */
-// TODO TRY WITH 5000 LIMITS RATE TO FETCH DATA FROM ADRESSABLE ASSETS
-/**
- * Download ALL images of pogo_assets
- * // TODO with https://www.npmjs.com/package/got
- */
-const pullImages = async () => {
-    /* 
-    const pipeline = promisify(stream.pipeline)
-    await pipeline(
-        got.stream('https://api.github.com/repos/PokeMiners/pogo_assets/zipball/master', {
-            headers: {
-                'User-Agent': 'request',
-                auth: process.env.GITHUB_PERSONAL_TOKEN
-            }
-        }),
-        fs.createWriteStream('./server/Images/pogo_assets.zip')
-        ) 
-        */
-    // GOT DDl via stream and can see progress
-    /* const dlStream = got.stream('https://api.github.com/repos/PokeMiners/pogo_assets/Image/Pokemon/zipball/master', {
-        headers: {
-            'User-Agent': 'request',
-            auth: process.env.GITHUB_PERSONAL_TOKEN
-        }
+
+
+// Get lastest Game Master
+const fetchLastestGM = async () => {
+    const octokit = new Octokit({
+        auth: process.env.GITHUB_PERSONAL_TOKEN
     })
-    const writerStream = fs.createWriteStream('./server/Images/pogo_assets.zip')
+    // DL https://api.github.com/repos/PokeMiners/game_masters/git/blobs/0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f
+    const blob = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
+        owner: 'PokeMiners',
+        repo: 'game_masters',
+        file_sha: '0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f'
+    })
 
-    dlStream
-        .on('downloadProgress', ({ transferred, total, percent }) => {
-            const percentage = Math.round(percent * 100)
-            console.log(`Progress : ${transferred}/${total} (${percentage}%)`)
-        })
-        .on('error', (error) => {
-            console.error(`Download failed: ${error.message}`)
-        })
-    writerStream
-        .on('error', (error) => {
-            console.error(`Could not write file to system: ${error.message}`)
-        })
-        .on('finish', () => {
-            console.log(`File downloaded to Images folder`)
-        })
-    dlStream.pipe(writerStream) */
+    fs.writeFileSync('./data/types.json', JSON.stringify(contents), 'utf-8', '', (err) => {
+        if (err) console.log(err)
+        console.log('Blob images file saved')
+    })
 }
-pullImages()
-
-import { Octokit } from '@octokit/core'
 // Get last commit
 // Get the last update with commit.committer(or author).date
 // Filter with filename
@@ -88,9 +68,43 @@ const getLastCommitedImages = async () => {
     })
     // TODO Get the updated files only
 }
+/**
+ * Get images from a specific tree 
+ * URL Repo: https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/523fb600cc53a25226779c7ca9f486165057a40f
+ * URL Content: https://api.github.com/repos/PokeMiners/pogo_assets/git/blobs/d59db23a74f892d8bf263cfd6484b13f101b598a
+ */
+const fetchTypeImages = async () => {
+    const imgs = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}{?recursive}', {
+        owner: 'PokeMiners',
+        repo: 'pogo_assets',
+        tree_sha: '523fb600cc53a25226779c7ca9f486165057a40f'
+    })
+    // Array of promises blob base64 images  (cause of async)
+    // Using a for loop for slower API request
+    const contents = []
+    for (let i = 0; i < imgs.data.tree.length; i++) {
+        const node = imgs.data.tree[i]
 
-import { Octokit } from '@octokit/core'
-import fs from 'fs'
+        console.log("Awaiting for ", node.path)
+        const blob = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
+            owner: 'PokeMiners',
+            repo: 'pogo_assets',
+            file_sha: node.sha
+        })
+        const img = {}
+        img.path = node.path
+        img.content = blob.data.content
+        contents.push(img)
+    }
+
+    // sort content
+    // Need to resolve the array of promises
+    fs.writeFileSync('./data/types.json', JSON.stringify(contents), 'utf-8', '', (err) => {
+        if (err) console.log(err)
+        console.log('Blob images file saved')
+    })
+}
+//// (TODO) TRY WITH 5000 LIMITS RATE TO FETCH DATA FROM ADRESSABLE ASSETS
 // Fetch all icon name => ONE API call
 const fetchAllImages = async () => {
     //? TODO make another function for that
@@ -130,3 +144,7 @@ const fetchAllImages = async () => {
 
 // Git Token =>
 // Tree_sha 'bb18b8bb221f500056b3c6f3d766eec4f3d28559' references to Images/Pokemon/Adressable Assets
+
+export default {
+    fetchTypeImages
+}
