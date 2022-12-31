@@ -34,6 +34,9 @@ db.connectDB()
 // Run server AFTER connection to mongoDB
 mongoose.connection.once('open', async () => {
     console.log("Connected once to MongoDB")
+    // TODO Check date for latest GM
+    const isGMUptoDate = git.isRepoUptoDate("1")
+    // TODO Update if necessary
     // Tips
     // - 'mongoose.connection' is equal to 'new MongoClient(url).db'
     // - 'mongoose.connection.db' is equal to 'new MongoClient(url).db'
@@ -43,8 +46,8 @@ mongoose.connection.once('open', async () => {
         await db.initCollection()
     }
     // Update images
-    addImageInfos()
-    // If (images.date === gitImages.date do no'ing)
+    // addImageInfos()
+    // If (images.date === gitImages.date) do no'ing
     // git.fetchTypeImages()
     // Drop collections
     /* const collectionName = "pokemons"
