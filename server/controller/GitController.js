@@ -2,6 +2,7 @@ import dotenv from "dotenv"
 dotenv.config()
 import fs from 'fs'
 import { Octokit } from '@octokit/core'
+import axios from 'axios'
 const octokit = new Octokit({ auth: process.env.GITHUB_PERSONAL_TOKEN })
 const GIT_URL_POGOASSETS = "https://api.github.com/repos/PokeMiners/pogo_assets"
 const GIT_URL_IMAGES = "https://api.github.com/repositories/243406442/contents/Images"
@@ -24,55 +25,68 @@ const IMAGES_FOLDER_PATH = "../images"
  */
 
 /**
- * Compare the date of remote Git repo and local Git repo.
- * Get latest repository update date :
- *  - "1" for "game_master",
- *  - "2" for "pogo_assets".
- * Octokit DOC: DOC: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
- * @param {String} choice Name of the GitHub repository (1-game_master, 2-pogo_assets)
- */
-const isRepoUptoDate = async (choice) => {
-    let repo = ""
-    switch (choice) {
-        case "1": repo = "game_master"; break;
-        case "2": repo = "pogo_assets"; break;
-        default: repo = "game_master"
-    }
-    // Check GIT repo update
-    const res = await octokit.request('GET /repos/{owner}/{repo}', {
-        owner: 'PokeMiners',
-        repo: repo
-    })
-    const gitUpdate = res.data.updated_at
-    const gitDate = new Date(gitUpdate)
-
-    // Check LOCAL repo update
-    let localUpdate = new Date(0)
-    if (fs.existsSync('./data/update.json')) {
-        const content = fs.readFileSync('./data/update.json', 'utf-8')
-        localUpdate = new Date(content[repo])
-    }
-
-    // Compare the 2 dates
-    return gitDate.getTime() === localUpdate.getTime()
-}
-/**
  * Fetch and save latest game_master
- * Direct Link: https://api.github.com/repos/PokeMiners/game_masters/git/blobs/0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f
+ * GitHub API: https://api.github.com/repos/PokeMiners/game_masters/git/blobs/0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f
  */
-const fetchGitRepo = async () => {
+const fetch_GM_Repo = async () => {
     const blob = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
         owner: 'PokeMiners',
         repo: 'game_masters',
         file_sha: '0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f'
     })
-    const content = blob.data.content
-    fs.writeFileSync('./data/latest.json', JSON.stringify(content), 'utf-8', '', (err) => {
-        if (err) console.log(err)
-        console.log('Latest GM updated!')
-    })
+    const contentBase64_String = blob.data.content // Convert base64 string to buffer,
+    const buf = Buffer.from(contentBase64_String, 'base64') // Convert buffer to utf-8 string
+    const json = JSON.parse(buf.toString()) // Parse utf8 string to JSON object
+
+    try {
+        // Stringify JSON object and save JSON string to JSON file
+        fs.writeFileSync('./data/latest.json', JSON.stringify(json), 'utf-8')
+        console.log("Latest game_masters updated")
+    } catch (err) {
+        console.log(err.message)
+    }
 }
-// Get last commit
+
+/**
+ * Synchronize Git repo and Local repo
+ * 1. Compare Git and local repo update time
+ * 2. Fetch & save Git repository content
+ * 3. Update local date
+ * 
+ * Octokit DOC: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
+ * GitHub API: https://api.github.com/repos/PokeMiners/{repo}
+ * 
+ * @param {String} repo Name of the GitHub repository (game_masters, pogo_assets)
+ * @returns {Boolean} Equality of the dates.
+ */
+const syncRepo = async (repo) => {
+    if (repo !== "game_masters" && repo !== "pogo_assets") throw new Error("Wrong repository name. (game_masters or pogo_assets)")
+    // Check GIT repository date
+    const res = await octokit.request('GET /repos/{owner}/{repo}', {
+        owner: 'PokeMiners',
+        repo: repo
+    })
+    const gitDate = res.data.updated_at
+    const gitTimestamp = Date.parse(gitDate)
+
+    // Check LOCAL repository date
+    if (fs.existsSync('./data/update.json')) {
+        // Read local date
+        const content = fs.readFileSync('./data/update.json')
+        const json = JSON.parse(content)
+        const localTimestamp = Date.parse(json[repo])
+        // Write new date
+        if (gitTimestamp !== localTimestamp) {
+            await fetch_GM_Repo()
+            json[repo] = gitDate
+            fs.writeFileSync('./data/update.json', JSON.stringify(json), 'utf-8')
+            console.log('Local date updated')
+        } else {
+            console.log('game_masters already up to date')
+        }
+    }
+}
+// Get last commit at https://api.github.com/repos/PokeMiners/pogo_assets/commits/master
 // Get the last update with commit.committer(or author).date
 // Filter with filename
 // Get content with raw_url
@@ -137,9 +151,6 @@ const fetchTypeImages = async () => {
 const fetchAllImages = async () => {
     //? TODO make another function for that
     // OCTOKIT - TREES - Get ALL (2575) images but no download_url only api_url
-    const octokit = new Octokit({
-        auth: process.env.GITHUB_PERSONAL_TOKEN
-    })
     // Tree_sha 'bb18b8bb221f500056b3c6f3d766eec4f3d28559' references to Images/Pokemon/Adressable Assets
     const imgs = await octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}{?recursive}', {
         owner: 'PokeMiners',
@@ -172,6 +183,7 @@ const fetchAllImages = async () => {
 // Tree_sha 'bb18b8bb221f500056b3c6f3d766eec4f3d28559' references to Images/Pokemon/Adressable Assets
 
 export default {
-    isRepoUptoDate,
+    syncRepo,
+    fetch_GM_Repo,
     fetchTypeImages
 }

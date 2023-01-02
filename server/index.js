@@ -35,8 +35,7 @@ db.connectDB()
 mongoose.connection.once('open', async () => {
     console.log("Connected once to MongoDB")
     // TODO Check date for latest GM
-    const isGMUptoDate = git.isRepoUptoDate("1")
-    // TODO Update if necessary
+    git.syncRepo("game_masters")
     // Tips
     // - 'mongoose.connection' is equal to 'new MongoClient(url).db'
     // - 'mongoose.connection.db' is equal to 'new MongoClient(url).db'
