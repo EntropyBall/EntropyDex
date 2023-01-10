@@ -45,7 +45,7 @@ mongoose.connection.once('open', async () => {
         await db.initCollection()
     }
     // Update images
-    // addImageInfos()
+    addImageInfos()
     // If (images.date === gitImages.date) do no'ing
     // git.fetchTypeImages()
     // Drop collections

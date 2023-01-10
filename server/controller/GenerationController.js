@@ -43,15 +43,21 @@ const fetchGenerations = async () => {
 }
 
 const getGenerations = () => {
-    const rawFile = fs.readFileSync(
-        path.join('..', 'server', 'data', 'generation.json'),
-        'utf-8',
-        (err, data) => {
-            if (err) throw err
-            return data
-        })
+    const rawFile = fs.readFileSync(path.join('..', 'server', 'data', 'generation.json'), 'utf-8')
     const generations = JSON.parse(rawFile)
     return generations
 }
+const getRegion = (generations, pokemonName) => {
+    const formattedName = pokemonName.replace(/_/g, "-")
+    for (const generation of generations.generations) {
+        if (generation.species.includes(formattedName.toLowerCase())) {
+            return generation.region
+        }
+    }
+}
 
-export { getGenerations, fetchGenerations }
+export {
+    getGenerations,
+    getRegion,
+    fetchGenerations
+}

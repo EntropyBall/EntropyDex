@@ -80,9 +80,9 @@ const syncRepo = async (repo) => {
             await fetch_GM_Repo()
             json[repo] = gitDate
             fs.writeFileSync('./data/update.json', JSON.stringify(json), 'utf-8')
-            console.log('Local date updated')
+            console.log('Local game_masters updated')
         } else {
-            console.log('game_masters already up to date')
+            console.log('Local game_masters already up to date')
         }
     }
 }

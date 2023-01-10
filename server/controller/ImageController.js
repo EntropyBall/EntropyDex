@@ -42,7 +42,6 @@ const createImageObject = (filename, parts) => {
 const addImageInfos = () => {
     const paths = fs.readFileSync("./data/blob.json", 'utf-8')
     const images = JSON.parse(paths)
-    const pokemons = []
     let pokemon = {}
     let prevId = 0
 
@@ -57,7 +56,7 @@ const addImageInfos = () => {
         // console.log(currentId, prevId)
         if (currentId === prevId) {
             // UPDATE OBJECT: Add other images to the same object
-            pokemon.images.unshift(createImageObject(filename, parts))
+            pokemon.images.push(createImageObject(filename, parts))
         } else {
             // Ignore first element
             if (prevId) {

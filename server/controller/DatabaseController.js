@@ -3,7 +3,7 @@ import dotenv from "dotenv/config"
 // === Mongoose IMPORT === //
 import mongoose from 'mongoose'
 import PokemonModel from '../models/Pokemons.js'
-import { getGenerations } from './GenerationController.js'
+import { getGenerations, getRegion } from './GenerationController.js'
 // === Files === //
 import fs from 'fs'
 import path from 'path'
@@ -27,17 +27,11 @@ const connectDB = async () => {
 // === Mongoose EVENTS === //
 /* https://mongoosejs.com/docs/connections.html#connection-events */
 
-const getRegion = (pokemonName) => {
-    const generations = getGenerations()
-    const formattedName = pokemonName.replace(/_/g, "-")
-    for (const generation of generations.generations) {
-        if (generation.species.includes(formattedName.toLowerCase())) {
-            return generation.region
-        }
-    }
-}
+
 // Return an array of pokemons 
 const saveItems = async () => {
+    const generations = getGenerations()
+
     const items = fs.readFileSync(path.join(__dirname, '..', 'data', 'latest.json'), 'utf-8', (err, data) => {
         if (err) throw err
         return data
@@ -79,7 +73,7 @@ const saveItems = async () => {
                 types: pokemonTypes,
                 family: pokemonSettings.familyId,
                 stats: pokemonSettings.stats,
-                region: getRegion(pokemonSettings.pokemonId)
+                region: getRegion(generations, pokemonSettings.pokemonId)
             }
             pokemons.push(pokemon)
             // Avoid duplicate
