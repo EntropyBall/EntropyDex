@@ -15,19 +15,36 @@ const PokemonItem = ({ pokemon }) => {
                 pokemon.forms[0].form === img.form
         })
     }
-    const baseFormURL = baseForm ? "http://localhost:3001/images/Pokemon/" + baseForm.filename : ""
+    const baseFormURL = baseForm
+        ? "http://localhost:3001/images/Pokemon/" + baseForm.filename
+        : ""
+
+    const megaForm = pokemon.images.find(image => image.isMega)
+    // 2 conditions: 1 for rendering 1 for scripting
+    const megaFormDiv = megaForm ? <div className={`item ${pokemon.family}`}>
+        <p className='name'>{pokemon.name}-{pokemon.images.length}</p>
+        <LazyLoadImage
+            className='pokemonImg'
+            src={"http://localhost:3001/images/Pokemon/" + megaForm.filename}
+            alt={pokemon.name}
+            loading={"lazy"}
+        />
+    </div> : ""
 
     // USE LOADING LAZY REACT https://www.youtube.com/watch?v=8viWcH5bUE4
     return (
-        <div className={`item ${pokemon.family}`}>
-            <p className='name'>{pokemon.name}-{pokemon.images.length}</p>
-            <LazyLoadImage
-                className='pokemonImg'
-                src={baseFormURL}
-                alt={pokemon.name}
-                loading={"lazy"}
-            />
-        </div>
+        <>
+            <div className={`item ${pokemon.family}`}>
+                <p className='name'>{pokemon.name}-{pokemon.images.length}</p>
+                <LazyLoadImage
+                    className='pokemonImg'
+                    src={baseFormURL}
+                    alt={pokemon.name}
+                    loading={"lazy"}
+                />
+            </div>
+            {megaForm && megaFormDiv}
+        </>
     )
 }
 
