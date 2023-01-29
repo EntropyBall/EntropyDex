@@ -1,8 +1,8 @@
-import dotenv from "dotenv"
-dotenv.config()
 import fs from 'fs'
-import { Octokit } from '@octokit/core'
 import axios from 'axios'
+import ic from './ImageController.js'
+import oc from './OctokitController.js'
+import { Octokit } from 'octokit'
 const octokit = new Octokit({ auth: process.env.GITHUB_PERSONAL_TOKEN })
 const GIT_URL_POGOASSETS = "https://api.github.com/repos/PokeMiners/pogo_assets"
 const GIT_URL_IMAGES = "https://api.github.com/repositories/243406442/contents/Images"
@@ -11,17 +11,22 @@ const GIT_URL_POGOASSETS_RAW = "https://raw.githubusercontent.com/PokeMiners/pog
 const IMAGES_FOLDER_PATH = "../images"
 /**
  * DDL a file via http get https://stackoverflow.com/questions/11944932/how-to-download-a-file-with-node-js-without-using-third-party-libraries
- * Some Git API URLs
- * - User https://api.github.com/users/PokeMiners
- * - Repos https://api.github.com/users/PokeMiners/repos
- * - Content GM https://api.github.com/repos/PokeMiners/game_masters/contents/
- * - Content PA https://api.github.com/repos/PokeMiners/pogo_assets/contents/
- * With SHA 
- * - Tree GM https://api.github.com/repos/PokeMiners/game_masters/git/trees/{tree_sha}
- * - Tree PA https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/{tree_shat}
- * - PA Images https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/4495d5d3a4df9f77e1db9f208d8ae2416fd7a15f
- * - Commit PA https://api.github.com/repos/PokeMiners/pogo_assets/commits/{sha_commit}
- * 
+ * Use Contents link to get the sha then use tree or w/e link to get the resource
+ *! GitHub DOC: https://docs.github.com/en/rest
+ ** Repositories:
+ *  - getRepositories https://docs.github.com/en/rest/repos/repos
+ *  - getContent https://docs.github.com/en/rest/repos/contents
+ *! GitHub API:
+ ** POKEMINERS
+ *  - User https://api.github.com/users/PokeMiners
+ *  - Repos https://api.github.com/users/PokeMiners/repos
+ ** > GAME_MASTER
+ *  - Contents https://api.github.com/repos/PokeMiners/game_masters/contents/
+ *  - Tree https://api.github.com/repos/PokeMiners/game_masters/git/trees/{tree_sha}
+ ** > POGO_ASSETS
+ *  - Contents https://api.github.com/repos/PokeMiners/pogo_assets/contents/
+ *  - Commit https://api.github.com/repos/PokeMiners/pogo_assets/commits/{sha_commit}
+ *  - Tree https://api.github.com/repos/PokeMiners/pogo_assets/git/trees/{tree_sha} * 
  */
 
 /**
@@ -47,6 +52,33 @@ const fetch_GM_Repo = async () => {
     }
 }
 
+/**
+ * 
+ * @param {*} repo 
+ * @param {String} path 
+ */
+const fetchImages = async (repo, path) => {
+    // Remove last directory from path to get its sha
+    const paths = path.split('/')
+    paths.pop()
+    const repos = await oc.getRepoContent(repo, paths.join('/'))
+    const tree_sha = repos.find(repo => repo.path === path).sha
+    console.log(path)
+    const images = await oc.getTree(repo, tree_sha)
+    // get repo content
+
+    for (let i = 0; i < images.length; i++) {
+        const node = images[i]
+
+        console.log("Awaiting for ", node.path)
+        const blob = await oc.getBlob(repo, node.sha)
+
+        const image = {}
+        image.path = node.path
+        image.blob = blob
+        ic.saveImage(path, image)
+    }
+}
 /**
  * Synchronize Git repo and Local repo
  * 1. Compare Git and local repo update time
@@ -87,9 +119,15 @@ const syncRepo = async (repo) => {
     }
 }
 // Get last commit at https://api.github.com/repos/PokeMiners/pogo_assets/commits/master
+
 // Get the last update with commit.committer(or author).date
 // Filter with filename
 // Get content with raw_url
+/**
+ * Last commit https://api.github.com/repos/PokeMiners/pogo_assets/commits/master
+ * List of last 10 commits https://api.github.com/repos/PokeMiners/pogo_assets/commits
+ * Check for
+ */
 const getLastCommitedImages = async () => {
     const octokit = new Octokit({
         auth: process.env.GITHUB_PERSONAL_TOKEN
@@ -141,11 +179,11 @@ const fetchTypeImages = async () => {
 
     // sort content
     // Need to resolve the array of promises
-    fs.writeFileSync('./data/types.json', JSON.stringify(contents), 'utf-8', '', (err) => {
-        if (err) console.log(err)
-        console.log('Blob images file saved')
-    })
+    fs.writeFileSync('./data/types.json', JSON.stringify(contents), 'utf-8')
 }
+/**
+ * Get images for mega pokemon using old template 
+ */
 //// (TODO) TRY WITH 5000 LIMITS RATE TO FETCH DATA FROM ADRESSABLE ASSETS
 // Fetch all icon name => ONE API call
 const fetchAllImages = async () => {
@@ -184,6 +222,7 @@ const fetchAllImages = async () => {
 
 export default {
     syncRepo,
+    fetchImages,
     fetch_GM_Repo,
     fetchTypeImages
 }

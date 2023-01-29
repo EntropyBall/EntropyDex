@@ -1,23 +1,20 @@
 import fs from 'fs'
 import dbCont from './DatabaseController.js'
-
-const convertBlobsToImages = () => {
-    // Fetch the string & convert to buffer
-    const blobs = fs.readFileSync("./server/data/blob.json", 'utf-8')
-    const array = JSON.parse(blobs)
-
-    array.forEach(blob => {
-        const buffer = Buffer.from(blob.content, 'base64')
-        try {
-            fs.writeFileSync(`./server/public/images/Pokemon/${blob.path}`, buffer)
-            console.log(`File ${blob.path} saved`)
-            // find the pokemon in mongoDB & update it with an array of images
-        } catch (err) {
-            console.log(err)
-        }
-    })
+/**
+ * 
+ * @param {*} path 
+ * @param {*} blob 
+ */
+const saveImage = (path, image) => {
+    const buffer = Buffer.from(image.blob, 'base64')
+    try {
+        fs.mkdirSync(`./public/${path}`, { recursive: true })
+        fs.writeFileSync(`./public/${path}/${image.path}`, buffer)
+        console.log(`File ${image.path} saved`)
+    } catch (err) {
+        console.log(err)
+    }
 }
-
 
 const createImageObject = (filename, parts) => {
     const image = {}
@@ -79,6 +76,7 @@ const addImageInfos = () => {
     // console.log(JSON.stringify(pokemons, null, 2))
 }
 
-export {
+export default {
+    saveImage,
     addImageInfos,
 }
