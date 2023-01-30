@@ -38,6 +38,9 @@ mongoose.connection.once('open', async () => {
     gc.syncRepo("game_masters")
     // Tips
     // - 'mongoose.connection' is equal to 'new MongoClient(url).db'
+    // Drop collections
+    /* const collectionName = "pokemons"
+    db.dropCollection(collectionName) */
     // - 'mongoose.connection.db' is equal to 'new MongoClient(url).db'
     // Retrieve one
     const one = await PokemonModel.findOne({ dexid: "0002" })
@@ -50,14 +53,12 @@ mongoose.connection.once('open', async () => {
     const typesPath = "Images/Types"
     // Fetch Images
     // gc.fetchImages(repo, pokemonAddressablePath)
+    // gc.saveImagePaths(repo, pokemonAddressablePath)
     // Update info images
-    // ic.addImageInfos()
+    ic.addImageInfos()
     // If (images.date === gitImages.date) do no'ing
     // git.fetchTypeImages()
 
-    // Drop collections
-    /* const collectionName = "pokemons"
-    db.dropCollection(collectionName) */
 
     // Drop database
     /* await mongoose.connection.db.dropDatabase(function (err) {

@@ -37,7 +37,7 @@ const createImageObject = (filename, parts) => {
  * Add the infos to the database
  */
 const addImageInfos = () => {
-    const paths = fs.readFileSync("./data/blob.json", 'utf-8')
+    const paths = fs.readFileSync("./data/Images_Pokemon_Addressable_Assets.json", 'utf-8')
     const images = JSON.parse(paths)
     let pokemon = {}
     let prevId = 0

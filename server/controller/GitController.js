@@ -53,22 +53,30 @@ const fetch_GM_Repo = async () => {
 }
 
 /**
- * 
+ * FIRST
+ * Get the content for the repo
+ * Find the sha for this repo
+ * Get the tree for this repo using sha
+ * Save the images into PNG
+ * Save the paths into JSON
  * @param {*} repo 
  * @param {String} path 
  */
 const fetchImages = async (repo, path) => {
-    // Remove last directory from path to get its sha
+    // JSON file
+    const images = []
+    const fileName = path.replaceAll(/[ /]/g, '_')
+    // Split and remove last directory
     const paths = path.split('/')
     paths.pop()
     const repos = await oc.getRepoContent(repo, paths.join('/'))
+    // Get the sha
     const tree_sha = repos.find(repo => repo.path === path).sha
-    console.log(path)
-    const images = await oc.getTree(repo, tree_sha)
-    // get repo content
+    const tree = await oc.getTree(repo, tree_sha)
 
-    for (let i = 0; i < images.length; i++) {
-        const node = images[i]
+    // Get repo content
+    for (let i = 0; i < tree.length; i++) {
+        const node = tree[i]
 
         console.log("Awaiting for ", node.path)
         const blob = await oc.getBlob(repo, node.sha)
@@ -77,7 +85,34 @@ const fetchImages = async (repo, path) => {
         image.path = node.path
         image.blob = blob
         ic.saveImage(path, image)
+
+        images.push({ path: node.path })
     }
+
+    fs.writeFileSync(`../server/data/${fileName}.json`, JSON.stringify(images), 'utf-8')
+}
+
+const fetchImage = async (repo, path) => {
+
+}
+
+const saveImagePaths = async (repo, path) => {
+    const fileName = path.replaceAll(/[ /]/g, '_')
+    const paths = path.split('/')
+    paths.pop()
+    const repos = await oc.getRepoContent(repo, paths.join('/'))
+    // Get the sha
+    const sha = repos.find(repo => repo.path === path).sha
+    const tree = await oc.getTree(repo, sha)
+
+    for (let i = 0; i < tree.length; i++) {
+        delete tree[i].mode
+        delete tree[i].type
+        delete tree[i].sha
+        delete tree[i].size
+        delete tree[i].url
+    }
+    fs.writeFileSync(`../server/data/${fileName}.json`, JSON.stringify(tree), 'utf-8')
 }
 /**
  * Synchronize Git repo and Local repo
@@ -116,7 +151,7 @@ const syncRepo = async (repo) => {
         } else {
             console.log('Local game_masters already up to date')
         }
-    }
+    } // TODO else
 }
 // Get last commit at https://api.github.com/repos/PokeMiners/pogo_assets/commits/master
 
@@ -213,16 +248,14 @@ const fetchAllImages = async () => {
         contents.push(img)
     }
     // Need to resolve the array of promises
-    fs.writeFileSync('./server/data/blob.json', JSON.stringify(contents), 'utf-8', (err) => {
-        if (err) console.log(err)
-        console.log('Blob images file saved')
-    })
+    fs.writeFileSync('./server/data/blob.json', JSON.stringify(contents), 'utf-8')
 }
 // Tree_sha 'bb18b8bb221f500056b3c6f3d766eec4f3d28559' references to Images/Pokemon/Adressable Assets
 
 export default {
     syncRepo,
     fetchImages,
+    saveImagePaths,
     fetch_GM_Repo,
     fetchTypeImages
 }
