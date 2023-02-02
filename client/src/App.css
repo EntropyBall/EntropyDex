@@ -49,3 +49,13 @@ body {
 .pokemonImg {
   transform: scale(calc(var(--item-size) / 256));
 }
+
+.typesImg {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.typesImg>img:first-child {
+  margin-left: 2px;
+}
