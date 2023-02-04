@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config()
-// TODO: Difference between /core and /rest
+// TODO: Know the difference between /core and /rest
 import { Octokit } from '@octokit/core'
 
 const octokit = new Octokit({ auth: process.env.GITHUB_PERSONAL_TOKEN })
@@ -8,6 +8,7 @@ const octokit = new Octokit({ auth: process.env.GITHUB_PERSONAL_TOKEN })
 /**
  * Get a repository content
  * Doc: https://docs.github.com/en/rest/repos/contents#get-repository-content
+ * API: https://api.github.com/repos/PokeMiners/game_masters/contents/
  * @param {*} repo 
  * @param {*} path 
  * @returns Array of the data response

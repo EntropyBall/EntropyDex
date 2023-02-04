@@ -10,9 +10,13 @@ const PokemonCard = ({ pokemon, url }) => {
             length="20"
         />
     })
-    console.log(types)
+    const handleClickLucky = (dexid) => {
+        // save/remove to local storage
+        // show/hide lucky
+        console.log(dexid)
+    }
     return (
-        <div className={`item ${pokemon.family}`}>
+        <div className={`item ${pokemon.family}`} onClick={() => handleClickLucky(pokemon.dexid)}>
             <p className='name'>{pokemon.dexid}-{pokemon.name}-{pokemon.images.length}</p>
             <div className='typesImg'>{types}</div>
             <LazyLoadImage
@@ -21,6 +25,7 @@ const PokemonCard = ({ pokemon, url }) => {
                 alt={pokemon.name}
                 loading={"lazy"}
             />
+            <p className='lucky'>Lucky pokemon</p>
         </div>
     )
 }

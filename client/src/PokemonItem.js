@@ -25,12 +25,13 @@ const PokemonItem = ({ pokemon }) => {
         ? "http://localhost:3001/Images/Pokemon/Addressable Assets/" + megaForm.filename
         : ""
 
+
     const PokemonCards = () => { }
     // USE LOADING LAZY REACT https://www.youtube.com/watch?v=8viWcH5bUE4
     return (
         <>
             <PokemonCard pokemon={pokemon} url={baseFormURL} />
-            {megaForm && <PokemonCard pokemon={pokemon} url={megaFormURL} />}
+            {/* {megaForm && <PokemonCard pokemon={pokemon} url={megaFormURL} />} */}
         </>
     )
 }

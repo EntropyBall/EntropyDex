@@ -30,7 +30,7 @@ body {
   height: calc(var(--item-size)* 1px + 20px);
   margin: 5px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: inherit;
@@ -58,4 +58,12 @@ body {
 
 .typesImg>img:first-child {
   margin-left: 2px;
+}
+
+.lucky {
+  color: deepskyblue;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 0;
 }

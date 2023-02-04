@@ -12,10 +12,10 @@ function App() {
     axios.get('http://localhost:3001/getPokemons')
       .then((response) => {
         setPokemons(response.data)
+        // setLocalStorage here
       })
       .catch(err => console.log(err))
   }, [])
-
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
   }))

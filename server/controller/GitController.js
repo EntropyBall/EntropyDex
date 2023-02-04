@@ -33,14 +33,11 @@ const IMAGES_FOLDER_PATH = "../images"
  * Fetch and save latest game_master
  * GitHub API: https://api.github.com/repos/PokeMiners/game_masters/git/blobs/0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f
  */
-const fetch_GM_Repo = async () => {
-    const blob = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
-        owner: 'PokeMiners',
-        repo: 'game_masters',
-        file_sha: '0869cfc4dde4cfe1ec6f68e5534e18dd4df9fc6f'
-    })
-    const contentBase64_String = blob.data.content // Convert base64 string to buffer,
-    const buf = Buffer.from(contentBase64_String, 'base64') // Convert buffer to utf-8 string
+const fetchGameMasters = async (repo, path) => {
+    const res = await oc.getRepoContent("game_masters", "latest")
+    const sha = res.find(repo => repo.name === "latest.json").sha
+    const blob = await oc.getBlob("game_masters", sha)
+    const buf = Buffer.from(blob, 'base64') // Convert buffer to utf-8 string
     const json = JSON.parse(buf.toString()) // Parse utf8 string to JSON object
 
     try {
@@ -142,9 +139,10 @@ const syncRepo = async (repo) => {
         const content = fs.readFileSync('./data/update.json')
         const json = JSON.parse(content)
         const localTimestamp = Date.parse(json[repo])
-        // Write new date
+        // Overwrite old date with new date
         if (gitTimestamp !== localTimestamp) {
-            await fetch_GM_Repo()
+            // TODO pogo_assets
+            await fetchGameMasters()
             json[repo] = gitDate
             fs.writeFileSync('./data/update.json', JSON.stringify(json), 'utf-8')
             console.log('Local game_masters updated')
@@ -256,6 +254,6 @@ export default {
     syncRepo,
     fetchImages,
     saveImagePaths,
-    fetch_GM_Repo,
+    fetchGameMasters,
     fetchTypeImages
 }
