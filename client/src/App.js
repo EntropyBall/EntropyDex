@@ -2,10 +2,12 @@ import './App.css'
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
 import PokemonItem from './PokemonItem.js'
+import FormContext from './formContext.js'
 const { v4: uuid } = require('uuid')
 
 function App() {
   const [pokemons, setPokemons] = useState([])
+  const [form, setForm] = useState(new Map())
 
   useEffect(() => {
     // Local Endpoint API
@@ -23,7 +25,9 @@ function App() {
   /* === HTML === */
   return (
     <div className='items'>
-      {PokemonItems}
+      <FormContext.Provider value={form}>
+        {PokemonItems}
+      </FormContext.Provider>
     </div>
   );
 }
