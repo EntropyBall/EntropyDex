@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { LazyLoadImage } from "react-lazy-load-image-component"
-import FormContext from './formContext.js'
+import { FormContext, FormSetContext } from './FormContext.js'
 
 const PokemonCard = ({ pokemon, url }) => {
+    const [isLucky, setIsLucky] = useState(false)
     const form = useContext(FormContext)
-    const types = pokemon.types.map(type => {
+    const setForm = useContext(FormSetContext)
+    const typeIcon = pokemon.types.map(type => {
         return <LazyLoadImage
             src={"http://localhost:3001/Images/Types/" + type + ".png"}
             alt={type}
@@ -12,30 +14,26 @@ const PokemonCard = ({ pokemon, url }) => {
             length="20"
         />
     })
-    const addLucky = (dexid) => {
-    }
-    const removeLucky = (dexid) => {
-        setLuckies(prev => {
-            const newState = new Map(prev)
-            newState.delete(dexid)
-            return newState
-        })
-    }
-    const handleClickLucky = (dexid) => {
-        // save/remove to local storage
 
-        setLuckies(prev => {
-            console.log(prev)
-            const newMap = new Map([...prev, [dexid, true]])
-            console.log(newMap)
-            return newMap
-        })
+    const handleAddLucky = (dexid) => {
+        // save/remove to local storage
+        setIsLucky(true)
+        setForm(prev => prev.set(dexid, { lucky: true }))
+        console.log(form)
+        // show/hide lucky
+    }
+    const handleRemoveLucky = (e, dexid) => {
+        e.stopPropagation()
+        // save/remove to local storage
+        setIsLucky(false)
+        setForm(prev => prev.set(dexid, { lucky: false }))
+        console.log(form)
         // show/hide lucky
     }
     return (
-        <div className={`item ${pokemon.family}`} onClick={() => handleClickLucky(pokemon.dexid)}>
+        <div className={`item ${pokemon.family}`} onClick={() => handleAddLucky(pokemon.dexid)}>
             <p className='name'>{pokemon.dexid}-{pokemon.name}-{pokemon.images.length}</p>
-            <div className='typesImg'>{types}</div>
+            <div className='typesImg'>{typeIcon}</div>
             <LazyLoadImage
                 className='pokemonImg'
                 src={url}
@@ -43,7 +41,7 @@ const PokemonCard = ({ pokemon, url }) => {
                 loading={"lazy"}
             />
             {/* Use context form here */}
-            <p className='lucky'>Lucky pokemon</p>
+            {isLucky && <p className='lucky' onClick={(e) => handleRemoveLucky(e, pokemon.dexid)}>Lucky pokemon</p>}
         </div>
     )
 }

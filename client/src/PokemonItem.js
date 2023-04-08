@@ -1,5 +1,6 @@
 import React from 'react'
 import PokemonCard from './PokemonCard.js'
+const { v4: uuid } = require('uuid')
 
 const PokemonItem = ({ pokemon }) => {
     // Get base form ("pm[id].icon.png"), RegEx: removes the first 0s
@@ -30,7 +31,10 @@ const PokemonItem = ({ pokemon }) => {
     // USE LOADING LAZY REACT https://www.youtube.com/watch?v=8viWcH5bUE4
     return (
         <>
-            <PokemonCard pokemon={pokemon} url={baseFormURL} />
+            <PokemonCard
+                pokemon={pokemon}
+                url={baseFormURL}
+            />
             {/* {megaForm && <PokemonCard pokemon={pokemon} url={megaFormURL} />} */}
         </>
     )

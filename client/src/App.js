@@ -2,7 +2,7 @@ import './App.css'
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
 import PokemonItem from './PokemonItem.js'
-import FormContext from './formContext.js'
+import { FormContext, FormSetContext } from './FormContext.js'
 const { v4: uuid } = require('uuid')
 
 function App() {
@@ -26,7 +26,9 @@ function App() {
   return (
     <div className='items'>
       <FormContext.Provider value={form}>
-        {PokemonItems}
+        <FormSetContext.Provider value={setForm}>
+          {PokemonItems}
+        </FormSetContext.Provider>
       </FormContext.Provider>
     </div>
   );

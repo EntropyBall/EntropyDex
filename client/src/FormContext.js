@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
-const FormContext = createContext(new Map())
+const FormContext = createContext(null)
+const FormSetContext = createContext(null)
 
-export default FormContext
+export { FormContext, FormSetContext }
