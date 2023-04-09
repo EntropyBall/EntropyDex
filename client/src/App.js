@@ -17,6 +17,8 @@ function App() {
         // setLocalStorage here
       })
       .catch(err => console.log(err))
+    const it = new Map(JSON.parse(localStorage.getItem('form')))
+    setForm(it)
   }, [])
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
