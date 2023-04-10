@@ -8,7 +8,10 @@ Used for rendering different JSX
 ¿ Can be used for PokemonItem forms ?
 ## How to use the app
 
-## How the app is made 
+## App architecture
+
+Array of map is load for one user
+
 ### useContext Hook
 Form are store in Map for better performance (adding/removing)
 To keep track of pokemon form (lucky, shiny, shadow...) useContext is implemented:

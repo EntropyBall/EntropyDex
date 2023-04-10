@@ -2,12 +2,22 @@ import './App.css'
 import React, { useState, useEffect } from "react"
 import axios from 'axios'
 import PokemonItem from './PokemonItem.js'
-import { FormContext, FormSetContext } from './FormContext.js'
+import { FormContext } from './FormContext.js'
+import { AccountContext } from './AccountContext.js'
+import NavBar from './NavBar'
 const { v4: uuid } = require('uuid')
 
 function App() {
   const [pokemons, setPokemons] = useState([])
-  const [form, setForm] = useState(new Map())
+  const [accounts, setAccounts] = useState([{
+    name: "EntropyBall",
+    selected: true
+  }, {
+    name: "EntropyBalI",
+    selected: false
+  }])
+  // Nested map ('Entropy', ("0001", { lucky: true }))
+  const form = new Map()
 
   useEffect(() => {
     // Local Endpoint API
@@ -17,8 +27,15 @@ function App() {
         // setLocalStorage here
       })
       .catch(err => console.log(err))
-    const it = new Map(JSON.parse(localStorage.getItem('form')))
-    setForm(it)
+
+    // For each account create a Map and set the map
+    accounts.map(account => {
+      if (localStorage.getItem(account.name)) {
+        form.set(account.name, JSON.parse(localStorage.getItem(account.name)))
+      }
+      form.set(account.name, new Map())
+    })
+    console.log(form)
   }, [])
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
@@ -26,13 +43,16 @@ function App() {
 
   /* === HTML === */
   return (
-    <div className='items'>
-      <FormContext.Provider value={form}>
-        <FormSetContext.Provider value={setForm}>
-          {PokemonItems}
-        </FormSetContext.Provider>
-      </FormContext.Provider>
-    </div>
+    <>
+      <AccountContext.Provider value={{ accounts, setAccounts }}>
+        <NavBar accounts={accounts} />
+        <div className='items'>
+          <FormContext.Provider value={form}>
+            {PokemonItems}
+          </FormContext.Provider>
+        </div>
+      </AccountContext.Provider>
+    </>
   );
 }
 
