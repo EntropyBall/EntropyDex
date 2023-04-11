@@ -3,11 +3,10 @@ import { FormContext } from './FormContext.js'
 import { AccountContext } from './AccountContext.js'
 
 const FormBar = ({ dexid }) => {
-    const { form } = useContext(FormContext)
+    const form = useContext(FormContext)
     const { accounts, updateAccounts } = useContext(AccountContext)
     const [isLucky, setIsLucky] = useState(false)
     const currentAccount = accounts.find(account => account.selected)
-
 
     useEffect(() => {
 
@@ -15,10 +14,12 @@ const FormBar = ({ dexid }) => {
 
 
     const handleAddLucky = (dexid) => {
-        console.log(form)
         // save/remove to local storage
-        form.set(currentAccount.name, new Map([[dexid, { lucky: true }]]))
-        localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(form)))
+        // add previous form in the new
+        const prev = form.get(currentAccount.name)
+        form.set(currentAccount.name, prev.set(dexid, { lucky: true }))
+        console.log(form)
+        localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(prev)))
 
         setIsLucky(true)
         // show/hide lucky
@@ -32,14 +33,15 @@ const FormBar = ({ dexid }) => {
      * @param {*} dexid 
      */
     const handleRemoveLucky = (dexid) => {
+        console.log(form)
         // save/remove to local storage
-        if (form.has(dexid)) {
+        /* if (form.has(dexid)) {
             const forms = form.get(dexid)
             form.set(currentAccount.name, new Map([[dexid, { ...forms, lucky: false }]]))
             // check if localStorage is available before calling
             // https://developer.mozilla.org/fr/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#test_du_support_et_disponibilit%C3%A9
             localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(form)))
-        }
+        } */
         // TODO: delete object if all property on object are false
 
         setIsLucky(false)

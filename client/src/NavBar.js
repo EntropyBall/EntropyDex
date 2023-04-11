@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AccountContext } from './AccountContext'
 
-const NavBar = ({ accounts }) => {
+const NavBar = () => {
+    const { accounts } = useContext(AccountContext)
     const currentAccount = accounts.find(account => account.selected)
     return (
         <nav className='navBar'>

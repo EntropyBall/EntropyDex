@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const FormContext = createContext(null)
+const FormContext = createContext(new Map())
 
 export { FormContext }

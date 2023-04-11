@@ -16,7 +16,7 @@ const PokemonCard = ({ pokemon, url }) => {
 
     return (
         <div className={`item ${pokemon.family}`} >
-            <p className='name'>{pokemon.dexid}-{pokemon.name}-{pokemon.images.length}</p>
+            <p key={pokemon.dexid} className='name'>{pokemon.dexid + "-" + pokemon.name + " " + pokemon.images.length}</p>
             <div className='typesImg'>{typeIcon}</div>
             <LazyLoadImage
                 className='pokemonImg'

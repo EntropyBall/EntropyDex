@@ -18,24 +18,29 @@ function App() {
   }])
   // Nested map ('Entropy', ("0001", { lucky: true }))
   const form = new Map()
+  accounts.map(account => {
+    form.set(account.name, new Map())
+  })
 
   useEffect(() => {
     // Local Endpoint API
     axios.get('http://localhost:3001/getPokemons')
       .then((response) => {
         setPokemons(response.data)
-        // setLocalStorage here
       })
       .catch(err => console.log(err))
 
-    // For each account create a Map and set the map
-    accounts.map(account => {
-      if (localStorage.getItem(account.name)) {
-        form.set(account.name, JSON.parse(localStorage.getItem(account.name)))
-      }
-      form.set(account.name, new Map())
-    })
-    console.log(form)
+    /** Update forms from localStorage by:
+     *  - Select the current account
+     *  - Retrieve localStorage string
+     *  - Parse it into an array
+     *  - Convert it into a map
+     *  - Set the form context with 'account.name' as key and the map as value
+     */
+    const currentAccount = accounts.find(account => account.selected)
+    const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
+    const mapStorage = new Map(arrayStorage)
+    form.set(currentAccount.name, mapStorage)
   }, [])
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
@@ -45,12 +50,12 @@ function App() {
   return (
     <>
       <AccountContext.Provider value={{ accounts, setAccounts }}>
-        <NavBar accounts={accounts} />
-        <div className='items'>
-          <FormContext.Provider value={form}>
+        <FormContext.Provider value={form}>
+          <NavBar />
+          <div className='items'>
             {PokemonItems}
-          </FormContext.Provider>
-        </div>
+          </div>
+        </FormContext.Provider>
       </AccountContext.Provider>
     </>
   );
