@@ -9,16 +9,16 @@ const FormBar = ({ dexid }) => {
     const currentAccount = accounts.find(account => account.selected)
 
     useEffect(() => {
-
+        if (form.get(currentAccount.name).has(dexid)) {
+            setIsLucky(form.get(currentAccount.name).get(dexid).lucky)
+        }
     }, [])
-
 
     const handleAddLucky = (dexid) => {
         // save/remove to local storage
         // add previous form in the new
         const prev = form.get(currentAccount.name)
         form.set(currentAccount.name, prev.set(dexid, { lucky: true }))
-        console.log(form)
         localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(prev)))
 
         setIsLucky(true)
@@ -33,16 +33,16 @@ const FormBar = ({ dexid }) => {
      * @param {*} dexid 
      */
     const handleRemoveLucky = (dexid) => {
-        console.log(form)
         // save/remove to local storage
-        /* if (form.has(dexid)) {
-            const forms = form.get(dexid)
-            form.set(currentAccount.name, new Map([[dexid, { ...forms, lucky: false }]]))
+        const prev = form.get(currentAccount.name)
+        if (prev.has(dexid)) {
+
+            // TODO: retrieve object forms and spred it to keep other properties (shiny, shadow...)
+            form.set(currentAccount.name, prev.set(dexid, { lucky: false }))
+            localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(prev)))
             // check if localStorage is available before calling
             // https://developer.mozilla.org/fr/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#test_du_support_et_disponibilit%C3%A9
-            localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(form)))
-        } */
-        // TODO: delete object if all property on object are false
+        }
 
         setIsLucky(false)
         // show/hide lucky

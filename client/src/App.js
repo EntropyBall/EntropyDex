@@ -21,6 +21,17 @@ function App() {
   accounts.map(account => {
     form.set(account.name, new Map())
   })
+  /** Update forms from localStorage by:
+  *  - Select the current account
+  *  - Retrieve localStorage string
+  *  - Parse it into an array
+  *  - Convert it into a map
+  *  - Set the form context with 'account.name' as key and the map as value
+  */
+  const currentAccount = accounts.find(account => account.selected)
+  const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
+  const mapStorage = new Map(arrayStorage)
+  form.set(currentAccount.name, mapStorage)
 
   useEffect(() => {
     // Local Endpoint API
@@ -30,17 +41,9 @@ function App() {
       })
       .catch(err => console.log(err))
 
-    /** Update forms from localStorage by:
-     *  - Select the current account
-     *  - Retrieve localStorage string
-     *  - Parse it into an array
-     *  - Convert it into a map
-     *  - Set the form context with 'account.name' as key and the map as value
-     */
-    const currentAccount = accounts.find(account => account.selected)
-    const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
-    const mapStorage = new Map(arrayStorage)
-    form.set(currentAccount.name, mapStorage)
+
+
+    console.log(form)
   }, [])
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
