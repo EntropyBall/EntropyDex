@@ -1,12 +1,17 @@
-import React, { useContext } from 'react'
-import { AccountContext } from './AccountContext'
+import React, { useState } from 'react'
+import NavList from './NavList'
 
 const NavBar = () => {
-    const { accounts } = useContext(AccountContext)
-    const currentAccount = accounts.find(account => account.selected)
+    const [isShow, setIsShow] = useState(false)
+
+    const handleClick = () => {
+        // set clicked one to true the other to false
+        setIsShow(prev => !prev)
+    }
+
     return (
         <nav className='navBar'>
-            <p>{currentAccount.name}</p>
+            <NavList isShow={isShow} handleClick={handleClick} />
         </nav>
     )
 }

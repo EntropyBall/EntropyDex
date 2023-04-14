@@ -7,31 +7,17 @@ import { AccountContext } from './AccountContext.js'
 import NavBar from './NavBar'
 const { v4: uuid } = require('uuid')
 
-function App() {
+const App = () => {
   const [pokemons, setPokemons] = useState([])
   const [accounts, setAccounts] = useState([{
     name: "EntropyBall",
+    team: "Valor",
     selected: true
   }, {
     name: "EntropyBalI",
+    team: "Mystic",
     selected: false
   }])
-  // Nested map ('Entropy', ("0001", { lucky: true }))
-  const form = new Map()
-  accounts.map(account => {
-    form.set(account.name, new Map())
-  })
-  /** Update forms from localStorage by:
-  *  - Select the current account
-  *  - Retrieve localStorage string
-  *  - Parse it into an array
-  *  - Convert it into a map
-  *  - Set the form context with 'account.name' as key and the map as value
-  */
-  const currentAccount = accounts.find(account => account.selected)
-  const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
-  const mapStorage = new Map(arrayStorage)
-  form.set(currentAccount.name, mapStorage)
 
   useEffect(() => {
     // Local Endpoint API
@@ -40,11 +26,21 @@ function App() {
         setPokemons(response.data)
       })
       .catch(err => console.log(err))
-
-
-
-    console.log(form)
+    // Retrieve  & set accounts from DB
   }, [])
+
+  // Nested map ('Entropy', ("0001", { lucky: true }))
+  const form = new Map()
+  accounts.map(account => {
+    form.set(account.name, new Map())
+  })
+
+  // Update forms from localStorage
+  const currentAccount = accounts.find(account => account.selected)
+  const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
+  const mapStorage = new Map(arrayStorage)
+  form.set(currentAccount.name, mapStorage)
+
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
   }))
