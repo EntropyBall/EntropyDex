@@ -9,7 +9,7 @@ const NavList = ({ isShow, handleClick }) => {
 
     // JSX List
     const ohterAccountsElements = ohterAccounts.map(account => {
-        return <NavItem name={account.name} team={account.team} />
+        return <NavItem name={account.name} team={account.team} selected={account.selected} />
     })
 
     return (
