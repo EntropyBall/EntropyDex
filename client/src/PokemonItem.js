@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PokemonCard from './PokemonCard.js'
 const { v4: uuid } = require('uuid')
 
@@ -40,4 +40,4 @@ const PokemonItem = ({ pokemon }) => {
     )
 }
 
-export default PokemonItem
+export default memo(PokemonItem)

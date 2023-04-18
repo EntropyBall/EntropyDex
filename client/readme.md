@@ -18,3 +18,7 @@ To keep track of pokemon form (lucky, shiny, shadow...) useContext is implemente
 - it avoids passing prop drilling from App > PokemonItem > PokemonCard
 - allows each PokemonItem component to set the map
 - every change on the map reload the every component (?)
+
+### memo
+Switching between accounts re-renders every image component. Since the images are the same no matter what, there is no need to re-render those components every time.
+By preventing re-render every image, memo improves performance. 
