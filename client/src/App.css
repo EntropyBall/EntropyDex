@@ -35,13 +35,23 @@ body {
   border: 1px solid #222;
   display: inline-block;
   list-style-type: none;
-  top: 0;
+  top: 55px;
+  font-size: 1rem;
   z-index: 1;
 }
 
 .nav-listAccount:hover {
   cursor: pointer;
   border: 1px solid #424242;
+}
+
+.nav-buttonAccount {
+  color: inherit;
+  padding: 0.5em;
+  background-color: #222;
+  border: 1px solid #222;
+  font-size: inherit;
+  font-family: inherit;
 }
 
 .nav-itemAccount {

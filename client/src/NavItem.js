@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { AccountContext } from './AccountContext'
 
-const NavItem = ({ name, team, selected }) => {
+const NavItem = ({ name, team }) => {
     const { accounts, setAccounts } = useContext(AccountContext)
+
     const handleAccount = () => {
         setAccounts(prev => {
             return prev.map(account => {
