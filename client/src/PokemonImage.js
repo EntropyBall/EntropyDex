@@ -14,7 +14,7 @@ const PokemonImage = ({ type, url, name }) => {
     }
     return (
         <LazyLoadImage
-            className='pokemonImg'
+            className='pokemonImage'
             src={url}
             alt={name}
             loading={"lazy"}

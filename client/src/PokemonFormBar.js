@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { FormContext } from './FormContext.js'
 import { AccountContext } from './AccountContext.js'
 
-const FormBar = ({ dexid }) => {
+const PokemonFormBar = ({ dexid }) => {
     const form = useContext(FormContext)
     const { accounts, updateAccounts } = useContext(AccountContext)
+    const [isShiny, setIsShiny] = useState(false)
     const [isLucky, setIsLucky] = useState(false)
     const currentAccount = accounts.find(account => account.selected)
 
@@ -49,7 +50,15 @@ const FormBar = ({ dexid }) => {
     }
 
     return (
-        <>
+        <div className='pokemonFormBar'>
+            {isShiny ?
+                <p
+                    className='shiny'>
+                    Shiny pokemon
+                </p>
+                :
+                <p>Add shiny</p>
+            }
             {isLucky ?
                 <p
                     className='lucky'
@@ -60,8 +69,8 @@ const FormBar = ({ dexid }) => {
                 <p onClick={() => handleAddLucky(dexid)}>Add lucky</p>
             }
 
-        </>
+        </div>
     )
 }
 
-export default FormBar
+export default PokemonFormBar
