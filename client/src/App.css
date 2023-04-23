@@ -1,3 +1,5 @@
+@import url('./font.css');
+
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +12,7 @@
 }
 
 body {
+  font-family: 'Lato';
   background-color: #333;
   color: white;
   width: 100%;
