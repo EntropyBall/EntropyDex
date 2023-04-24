@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FormContext } from './FormContext.js'
 import { AccountContext } from './AccountContext.js'
+import { ReactComponent as LuckyBaseIcon } from './svg/entropydex_icon_lucky.svg'
+import { ReactComponent as LuckyActiveIcon } from './svg/entropydex_icon_lucky_active.svg'
 
 const PokemonFormBar = ({ dexid }) => {
     const form = useContext(FormContext)
@@ -60,13 +62,13 @@ const PokemonFormBar = ({ dexid }) => {
                 <p>Add shiny</p>
             }
             {isLucky ?
-                <p
-                    className='lucky'
-                    onClick={() => handleRemoveLucky(dexid)}>
-                    Lucky pokemon
-                </p>
+                <div onClick={() => handleRemoveLucky(dexid)}>
+                    <LuckyActiveIcon />
+                </div>
                 :
-                <p onClick={() => handleAddLucky(dexid)}>Add lucky</p>
+                <div onClick={() => handleAddLucky(dexid)}>
+                    <LuckyBaseIcon />
+                </div>
             }
 
         </div>
