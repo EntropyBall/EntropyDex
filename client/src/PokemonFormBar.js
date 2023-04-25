@@ -62,7 +62,7 @@ const PokemonFormBar = ({ dexid }) => {
                 <p>Add shiny</p>
             }
             {isLucky ?
-                <div onClick={() => handleRemoveLucky(dexid)}>
+                <div className='lucky' onClick={() => handleRemoveLucky(dexid)}>
                     <LuckyActiveIcon />
                 </div>
                 :

@@ -100,7 +100,8 @@ body {
 }
 
 .pokemonFormBar>div {
-  width: 60%;
+  width: 100%;
+  text-align: center;
 }
 
 .pokemonTitle {
@@ -128,4 +129,8 @@ body {
 
 .typesImg>img:first-child {
   margin-left: 2px;
+}
+
+.lucky {
+  border: 1px solid yellow;
 }
