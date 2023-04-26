@@ -17,6 +17,13 @@ const PokemonFormBar = ({ dexid }) => {
         }
     }, [])
 
+    const handleAddShiny = () => {
+
+    }
+
+    const handleRemoveShiny = () => {
+
+    }
     const handleAddLucky = (dexid) => {
         // save/remove to local storage
         // add previous form in the new
