@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Suspense, useContext, useEffect, useState } from 'react'
 import { FormContext } from './FormContext.js'
 import { AccountContext } from './AccountContext.js'
-import { ReactComponent as LuckyBaseIcon } from './svg/entropydex_icon_lucky.svg'
-import { ReactComponent as LuckyActiveIcon } from './svg/entropydex_icon_lucky_active.svg'
+const LuckyBaseIcon = React.lazy(() => import('./svg/LuckyBase.js'))
+const LuckyActiveIcon = React.lazy(() => import('./svg/LuckyActive.js'))
+const ShinyBaseIcon = React.lazy(() => import('./svg/ShinyBase.js'))
+const ShinyActiveIcon = React.lazy(() => import('./svg/ShinyActive.js'))
 
 const PokemonFormBar = ({ dexid }) => {
     const form = useContext(FormContext)
@@ -18,12 +20,13 @@ const PokemonFormBar = ({ dexid }) => {
     }, [])
 
     const handleAddShiny = () => {
-
+        setIsShiny(true)
     }
 
     const handleRemoveShiny = () => {
-
+        setIsShiny(false)
     }
+
     const handleAddLucky = (dexid) => {
         // save/remove to local storage
         // add previous form in the new
@@ -61,20 +64,29 @@ const PokemonFormBar = ({ dexid }) => {
     return (
         <div className='pokemonFormBar'>
             {isShiny ?
-                <p
-                    className='shiny'>
-                    Shiny pokemon
-                </p>
+                <div className='shiny' onClick={() => handleRemoveShiny()}>
+                    <Suspense>
+                        <ShinyActiveIcon />
+                    </Suspense>
+                </div>
                 :
-                <p>Add shiny</p>
+                <div onClick={() => handleAddShiny()}>
+                    <Suspense>
+                        <ShinyBaseIcon />
+                    </Suspense>
+                </div>
             }
             {isLucky ?
                 <div className='lucky' onClick={() => handleRemoveLucky(dexid)}>
-                    <LuckyActiveIcon />
+                    <Suspense>
+                        <LuckyActiveIcon />
+                    </Suspense>
                 </div>
                 :
                 <div onClick={() => handleAddLucky(dexid)}>
-                    <LuckyBaseIcon />
+                    <Suspense>
+                        <LuckyBaseIcon />
+                    </Suspense>
                 </div>
             }
 

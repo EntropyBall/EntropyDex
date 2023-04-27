@@ -10,7 +10,7 @@ const PokemonTitle = ({ dexid, name, types, images }) => {
 
     return (
         <div className='pokemonTitle'>
-            <p className='name'>{dexid + "-" + name + " " + images.length}</p>
+            <p className='name'>{name}</p>
             <div className='typesImg'>{typeIcon}</div>
         </div>
     )
