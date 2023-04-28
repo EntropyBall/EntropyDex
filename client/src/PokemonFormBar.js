@@ -1,10 +1,12 @@
-import React, { Suspense, useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+/* Context */
 import { FormContext } from './FormContext.js'
 import { AccountContext } from './AccountContext.js'
-const LuckyBaseIcon = React.lazy(() => import('./svg/LuckyBase.js'))
-const LuckyActiveIcon = React.lazy(() => import('./svg/LuckyActive.js'))
-const ShinyBaseIcon = React.lazy(() => import('./svg/ShinyBase.js'))
-const ShinyActiveIcon = React.lazy(() => import('./svg/ShinyActive.js'))
+/* SVG icons */
+import { ReactComponent as ShinyBaseIcon } from './assets/entropydex_icon_shiny.svg'
+import { ReactComponent as ShinyActiveIcon } from './assets/entropydex_icon_shiny_active.svg'
+import { ReactComponent as LuckyBaseIcon } from './assets/entropydex_icon_lucky.svg'
+import { ReactComponent as LuckyActiveIcon } from './assets/entropydex_icon_lucky_active.svg'
 
 const PokemonFormBar = ({ dexid }) => {
     const form = useContext(FormContext)
@@ -65,28 +67,20 @@ const PokemonFormBar = ({ dexid }) => {
         <div className='pokemonFormBar'>
             {isShiny ?
                 <div className='shiny' onClick={() => handleRemoveShiny()}>
-                    <Suspense>
-                        <ShinyActiveIcon />
-                    </Suspense>
+                    <ShinyActiveIcon />
                 </div>
                 :
                 <div onClick={() => handleAddShiny()}>
-                    <Suspense>
-                        <ShinyBaseIcon />
-                    </Suspense>
+                    <ShinyBaseIcon />
                 </div>
             }
             {isLucky ?
                 <div className='lucky' onClick={() => handleRemoveLucky(dexid)}>
-                    <Suspense>
-                        <LuckyActiveIcon />
-                    </Suspense>
+                    <LuckyActiveIcon />
                 </div>
                 :
                 <div onClick={() => handleAddLucky(dexid)}>
-                    <Suspense>
-                        <LuckyBaseIcon />
-                    </Suspense>
+                    <LuckyBaseIcon />
                 </div>
             }
 
