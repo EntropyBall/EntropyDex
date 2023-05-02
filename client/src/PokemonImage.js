@@ -14,11 +14,11 @@ const PokemonImage = ({ type, url, name }) => {
     }
     return (
         <div className='pokemonImage'>
-            {/* <LazyLoadImage
+            <LazyLoadImage
                 src={url}
                 alt={name}
                 loading={"lazy"}
-            /> */}
+            />
         </div>
     )
 }
