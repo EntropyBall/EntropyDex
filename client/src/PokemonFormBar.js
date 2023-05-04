@@ -10,7 +10,7 @@ import { ReactComponent as LuckyActiveIcon } from './assets/entropydex_icon_luck
 
 const PokemonFormBar = ({ dexid }) => {
     const form = useContext(FormContext)
-    const { accounts, updateAccounts } = useContext(AccountContext)
+    const { accounts } = useContext(AccountContext)
     const [isShiny, setIsShiny] = useState(false)
     const [isLucky, setIsLucky] = useState(false)
     const currentAccount = accounts.find(account => account.selected)
@@ -30,14 +30,15 @@ const PokemonFormBar = ({ dexid }) => {
     }
 
     const handleAddLucky = (dexid) => {
-        // save/remove to local storage
         // add previous form in the new
+        const newForm = new Map()
+        newForm.set(currentAccount.name)
         const prev = form.get(currentAccount.name)
         form.set(currentAccount.name, prev.set(dexid, { lucky: true }))
+        // Save to local storage
         localStorage.setItem(currentAccount.name, JSON.stringify(Array.from(prev)))
-
+        // Show/hide lucky
         setIsLucky(true)
-        // show/hide lucky
     }
     /**
      * Set lucky form to false

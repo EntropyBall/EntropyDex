@@ -31,7 +31,7 @@ const App = () => {
 
   // Nested map ('Entropy', ("0001", { lucky: true }))
   const form = new Map()
-  accounts.map(account => {
+  accounts.forEach(account => {
     form.set(account.name, new Map())
   })
 

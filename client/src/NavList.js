@@ -4,7 +4,6 @@ import NavItem from './NavItem'
 
 const NavList = ({ isShow, handleClick }) => {
     const { accounts } = useContext(AccountContext)
-    const { name, team, selected } = accounts.find(account => account.selected)
     const ohterAccounts = accounts.filter(account => !account.selected)
 
     // JSX List

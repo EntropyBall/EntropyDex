@@ -29,7 +29,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -126,7 +126,7 @@ body {
   transform: scale(calc(var(--item-size) / 280));
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .name {
