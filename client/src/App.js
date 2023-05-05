@@ -9,7 +9,7 @@ const { v4: uuid } = require('uuid')
 
 const App = () => {
   const [pokemons, setPokemons] = useState([])
-  const [accounts, setAccounts] = useState([{
+  const accounts = [{
     name: "EntropyBall",
     team: "Valor",
     selected: true
@@ -17,7 +17,18 @@ const App = () => {
     name: "EntropyBalI",
     team: "Mystic",
     selected: false
-  }])
+  }]
+  accounts.forEach(a => console.log(a.name, a.selected))
+  // Nested map ('Entropy', ("0001", { lucky: true }))
+  const form = new Map()
+  accounts.forEach(account => {
+    form.set(account.name, new Map())
+  })
+  // Update forms from localStorage
+  const currentAccount = accounts.find(account => account.selected)
+  const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
+  const mapStorage = new Map(arrayStorage)
+  form.set(currentAccount.name, mapStorage)
 
   useEffect(() => {
     // Local Endpoint API
@@ -29,17 +40,8 @@ const App = () => {
     // Retrieve  & set accounts from DB
   }, [])
 
-  // Nested map ('Entropy', ("0001", { lucky: true }))
-  const form = new Map()
-  accounts.forEach(account => {
-    form.set(account.name, new Map())
-  })
 
-  // Update forms from localStorage
-  const currentAccount = accounts.find(account => account.selected)
-  const arrayStorage = JSON.parse(localStorage.getItem(currentAccount.name))
-  const mapStorage = new Map(arrayStorage)
-  form.set(currentAccount.name, mapStorage)
+
 
   const PokemonItems = (pokemons.map(pokemon => {
     return <PokemonItem key={uuid()} pokemon={pokemon} />
@@ -48,7 +50,7 @@ const App = () => {
   /* === HTML === */
   return (
     <>
-      <AccountContext.Provider value={{ accounts, setAccounts }}>
+      <AccountContext.Provider value={accounts}>
         <FormContext.Provider value={form}>
           <NavBar />
           <div className='items'>

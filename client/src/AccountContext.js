@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const AccountContext = createContext(null)
+const AccountContext = createContext({})
 
 export { AccountContext }

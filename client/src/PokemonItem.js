@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PokemonCard from './PokemonCard.js'
 
 const PokemonItem = ({ pokemon }) => {
@@ -37,4 +37,4 @@ const PokemonItem = ({ pokemon }) => {
     )
 }
 
-export default memo(PokemonItem)
+export default PokemonItem
