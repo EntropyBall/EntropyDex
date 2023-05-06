@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PokemonCard from './PokemonCard.js'
 
-const PokemonItem = ({ pokemon }) => {
+const PokemonItem = memo(({ pokemon }) => {
     // Get base form ("pm[id].icon.png"), RegEx: removes the first 0s
     let baseForm = pokemon.images.find(image => {
         return image.filename === "pm" + pokemon.dexid.replace(/[0]*/, "") + ".icon.png" ||
@@ -35,6 +35,6 @@ const PokemonItem = ({ pokemon }) => {
             {/* {megaForm && <PokemonCard pokemon={pokemon} url={megaFormURL} />} */}
         </>
     )
-}
+})
 
 export default PokemonItem

@@ -26,18 +26,25 @@ Components' tree
       - PokemonTitle
       - PokemonImage
         - LazyLoadImage
+
+### Problem  
+React default behavior renders all nested components within the updated component wether the props have changed.
+Switching between account will trigger a re-render of every component _'for the first time'_ down the tree, since the account context is placed at the top level component as a state.
+To optimize that and improve performance, useMemo or useCallback are tools to avoid re-render children components with no change in the props.
+
+useState for account makes react re-render every component, since it's on the top level component
+constante variable for account makes react not re-render PokemonFormBar since it's not a state.
+
 ## Hooks
 ### useContext Hook
-Form are store in Map for better performance (adding/removing)
+Form are store in Map for better performance (adding/removing).  
 Form default value is an empty Map() to avoir error if context is not provided.
 To keep track of pokemon form (lucky, shiny, shadow...) useContext is implemented:
-- it avoids passing prop drilling from App > PokemonItem > PokemonCard
+- it avoids passing prop drilling from App > PokemonItem > PokemonCard > PokemonFormBar
 - allows each PokemonItem component to set the map
 - since it's not a state React doesn't re-render every component.
 
-Changing account in the <NavItem /> will trigger a re-render of every component _'for the first time'_ since the account context is placed at the top level component <App /> and is assigned as a state.
-To change that I need to use a shouldComponentUpdate equivalent in React 18: useMemo or useCallback
 
-### memo (not working)
-Switching between accounts re-renders every image component. Since the images are the same no matter what, there is no need to re-render those components every time.
-By preventing re-render every image, memo improves performance. 
+### useMemo / useCallback (WIP)
+Switching between accounts re-renders every image component. Since the images are the same no matter what, there is no need to re-render those components every time.  
+By preventing re-render every image, memo hook improves performance. 
