@@ -10,17 +10,16 @@ import { ReactComponent as LuckyActiveIcon } from './assets/entropydex_icon_luck
 
 const PokemonFormBar = ({ dexid }) => {
     const form = useContext(FormContext)
-    const accounts = useContext(AccountContext)
+    const { accounts, setAccounts } = useContext(AccountContext)
     const [isShiny, setIsShiny] = useState(false)
     const [isLucky, setIsLucky] = useState(false)
     const currentAccount = accounts.find(account => account.selected)
 
     useEffect(() => {
-        console.log("in uE formBar")
         if (form.get(currentAccount.name).has(dexid)) {
             setIsLucky(form.get(currentAccount.name).get(dexid).lucky)
         }
-    }, [])
+    }, [accounts])
 
     const handleAddShiny = () => {
         setIsShiny(true)

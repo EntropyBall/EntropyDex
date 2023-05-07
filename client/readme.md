@@ -27,7 +27,8 @@ Components' tree
       - PokemonImage
         - LazyLoadImage
 
-### Problem  
+## Problem 
+### Switching between account
 React default behavior renders all nested components within the updated component wether the props have changed.
 Switching between account will trigger a re-render of every component _'for the first time'_ down the tree, since the account context is placed at the top level component as a state.
 To optimize that and improve performance, useMemo or useCallback are tools to avoid re-render children components with no change in the props.

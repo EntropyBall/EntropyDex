@@ -5,7 +5,7 @@ const PokemonTitle = ({ dexid, name, types, images }) => {
 
     const typeIcon = types.map(type => {
         const url = "http://localhost:3001/Images/Types/" + type + ".png"
-        return <PokemonImage type={type} url={url} />
+        return <PokemonImage key={type} type={type} url={url} />
     })
 
     return (
