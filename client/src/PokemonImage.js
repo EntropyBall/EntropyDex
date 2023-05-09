@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
-const PokemonImage = ({ type, url, name }) => {
+const PokemonImage = memo(function PokemonImage({ type, url, name }) {
     useEffect(() => {
         if (name === 'BULBASAUR') {
 
-            console.log("render in pokemon image for the first time")
+            console.log("BULBASAUR IMG re-render")
         }
     }, [])
     if (type) {
         return (
-            <LazyLoadImage
+            <img
+                loading={"lazy"}
                 src={url}
                 alt={type}
                 width="20"
@@ -20,13 +21,13 @@ const PokemonImage = ({ type, url, name }) => {
     }
     return (
         <div className='pokemonImage'>
-            <LazyLoadImage
+            <img
+                loading={"lazy"}
                 src={url}
                 alt={name}
-                loading={"lazy"}
             />
         </div>
     )
-}
+})
 
 export default PokemonImage

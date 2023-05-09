@@ -1,9 +1,7 @@
 import './App.css'
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import axios from 'axios'
 import PokemonItem from './PokemonItem.js'
-import { FormContext } from './FormContext.js'
-import { AccountContext } from './AccountContext.js'
 import NavBar from './NavBar'
 const { v4: uuid } = require('uuid')
 
@@ -41,21 +39,27 @@ const App = () => {
     })
   }, [])
 
-  const PokemonItems = (pokemons.map(pokemon => {
-    return <PokemonItem key={uuid()} pokemon={pokemon} />
-  }))
+
+  const PokemonItems = pokemons.map(pokemon => {
+    console.log("PokemonItem in App (901)")
+    return <PokemonItem
+      key={uuid()}
+      pokemon={pokemon}
+      accounts={accounts}
+      forms={forms}
+    />
+  })
 
   /* === HTML === */
   return (
     <>
-      <AccountContext.Provider value={{ accounts, setAccounts }}>
-        <FormContext.Provider value={forms}>
-          <NavBar />
-          <div className='items'>
-            {PokemonItems}
-          </div>
-        </FormContext.Provider>
-      </AccountContext.Provider>
+      <NavBar
+        accounts={accounts}
+        setAccounts={setAccounts}
+      />
+      <div className='items'>
+        {PokemonItems}
+      </div>
     </>
   );
 }

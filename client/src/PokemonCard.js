@@ -3,11 +3,13 @@ import PokemonFormBar from './PokemonFormBar.js'
 import PokemonImage from './PokemonImage.js'
 import PokemonTitle from './PokemonTitle.js'
 
-const PokemonCard = ({ pokemon, url }) => {
+const PokemonCard = ({ pokemon, url, accounts, forms }) => {
     return (
         <div className={`pokemonCard ${pokemon.family}`} >
             <PokemonFormBar
                 dexid={pokemon.dexid}
+                accounts={accounts}
+                forms={forms}
             />
             <PokemonTitle
                 dexid={pokemon.dexid}

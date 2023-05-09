@@ -1,8 +1,6 @@
-import React, { useContext } from 'react'
-import { AccountContext } from './AccountContext'
+import React from 'react'
 
-const NavItem = ({ name, team }) => {
-    const { accounts, setAccounts } = useContext(AccountContext)
+const NavItem = ({ setAccounts, name, team }) => {
 
     const handleAccount = () => {
         setAccounts(prev => {

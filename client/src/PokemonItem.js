@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PokemonCard from './PokemonCard.js'
 
-const PokemonItem = memo(({ pokemon }) => {
+const PokemonItem = memo(({ pokemon, accounts, forms }) => {
     // Get base form ("pm[id].icon.png"), RegEx: removes the first 0s
     let baseForm = pokemon.images.find(image => {
         return image.filename === "pm" + pokemon.dexid.replace(/[0]*/, "") + ".icon.png" ||
@@ -31,6 +31,8 @@ const PokemonItem = memo(({ pokemon }) => {
             <PokemonCard
                 pokemon={pokemon}
                 url={baseFormURL}
+                accounts={accounts}
+                forms={forms}
             />
             {/* {megaForm && <PokemonCard pokemon={pokemon} url={megaFormURL} />} */}
         </>

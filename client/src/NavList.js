@@ -1,14 +1,17 @@
-import React, { useContext } from 'react'
-import { AccountContext } from './AccountContext'
+import React from 'react'
 import NavItem from './NavItem'
 
-const NavList = ({ isShow, handleClick }) => {
-    const { accounts } = useContext(AccountContext)
+const NavList = ({ accounts, setAccounts, isShow, handleClick }) => {
     const ohterAccounts = accounts.filter(account => !account.selected)
 
     // JSX List
     const ohterAccountsElements = ohterAccounts.map(account => {
-        return <NavItem key={account.name} name={account.name} team={account.team} />
+        return <NavItem
+            key={account.name}
+            name={account.name}
+            team={account.team}
+            accounts={accounts}
+            setAccounts={setAccounts} />
     })
 
     return (

@@ -1,8 +1,6 @@
-import React, { useContext } from 'react'
-import { AccountContext } from './AccountContext'
+import React from 'react'
 
-const NavButton = ({ handleClick }) => {
-    const { accounts } = useContext(AccountContext)
+const NavButton = ({ accounts, handleClick }) => {
     const { name, team } = accounts.find(account => account.selected)
     return (
         <button className='nav-buttonAccount' onClick={handleClick}><span>{team} {name}</span></button>
