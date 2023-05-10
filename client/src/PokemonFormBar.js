@@ -13,6 +13,7 @@ const PokemonFormBar = ({ dexid, accounts, forms }) => {
     useEffect(() => {
         if (forms.get(currentAccount.name).has(dexid)) {
             setIsLucky(forms.get(currentAccount.name).get(dexid).lucky)
+            console.log("useEffect in PokemonFormBar")
         }
     }, [accounts])
 

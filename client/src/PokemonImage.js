@@ -2,12 +2,6 @@ import React, { memo, useEffect } from 'react'
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
 const PokemonImage = memo(function PokemonImage({ type, url, name }) {
-    useEffect(() => {
-        if (name === 'BULBASAUR') {
-
-            console.log("BULBASAUR IMG re-render")
-        }
-    }, [])
     if (type) {
         return (
             <img
