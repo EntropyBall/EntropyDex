@@ -63,7 +63,6 @@ To keep track of pokemon form (lucky, shiny, shadow...) useContext is implemente
 - allows each PokemonItem component to set the map
 - since it's not a state React doesn't re-render every component.
 
-
 ### memo API
 Switching between accounts re-renders every components. Since the images are the same no matter what, there is no need to re-render those components every time.  
 By preventing re-render every image, memo hook improves performance. 
