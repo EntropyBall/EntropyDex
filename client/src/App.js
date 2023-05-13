@@ -50,7 +50,7 @@ const App = () => {
     />
   })
 
-  /* === HTML === */
+  /* === JSX === */
   return (
     <>
       <NavBar
