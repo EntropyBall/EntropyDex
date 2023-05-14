@@ -1,5 +1,4 @@
-import React, { memo, useEffect } from 'react'
-import { LazyLoadImage } from "react-lazy-load-image-component"
+import React, { memo } from 'react'
 
 const PokemonImage = memo(function PokemonImage({ type, url, name }) {
     if (type) {
