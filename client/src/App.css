@@ -9,6 +9,10 @@
 :root {
   --item-size: 150;
   --radius-size: 5px;
+
+  --colorPrimal: #383838;
+  --colorSecondary: #222;
+  --colorNeutral: #333;
 }
 
 body {
@@ -31,6 +35,10 @@ body {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+}
+
+.navBar-search {
+  background-color: var(--colorSecondary);
 }
 
 .nav-listAccount {
