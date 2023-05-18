@@ -41,6 +41,7 @@ const App = () => {
         setForms(form)
       })
     }
+    // Clean up function
     return () => { ignore = true }
   }, [])
 
