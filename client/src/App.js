@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import axios from 'axios'
 import PokemonItem from './PokemonItem.js'
 import NavBar from './NavBar'
@@ -46,7 +46,7 @@ const App = () => {
   }, [])
 
 
-  const PokemonItems = pokemons.map(pokemon => {
+  const PokemonItems = useCallback(pokemons.map(pokemon => {
     console.log("PokemonItem in App (901)")
     return <PokemonItem
       key={uuid()}
@@ -54,7 +54,7 @@ const App = () => {
       accounts={accounts}
       forms={forms}
     />
-  })
+  }), [])
 
   /* === JSX === */
   return (

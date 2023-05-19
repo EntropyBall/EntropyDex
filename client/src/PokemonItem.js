@@ -19,13 +19,12 @@ const PokemonItem = ({ pokemon, accounts, forms }) => {
         ? "http://localhost:3001/Images/Pokemon/Addressable Assets/" + baseForm.filename
         : ""
 
-    /* const megaForm = pokemon.images.find(image => image.isMega)
+    const megaForm = pokemon.images.find(image => image.isMega)
     // 2 conditions: 1 for rendering 1 for scripting
     const megaFormURL = megaForm
         ? "http://localhost:3001/Images/Pokemon/Addressable Assets/" + megaForm.filename
-        : ""*/
+        : ""
 
-    // USE LOADING LAZY REACT https://www.youtube.com/watch?v=8viWcH5bUE4
     return (
         <>
             <PokemonCard
@@ -34,7 +33,14 @@ const PokemonItem = ({ pokemon, accounts, forms }) => {
                 accounts={accounts}
                 forms={forms}
             />
-            {/* {megaForm && <PokemonCard pokemon={pokemon} url={megaFormURL} />} */}
+            {megaForm &&
+                <PokemonCard
+                    pokemon={pokemon}
+                    url={megaFormURL}
+                    accounts={accounts}
+                    forms={forms}
+                />
+            }
         </>
     )
 }
