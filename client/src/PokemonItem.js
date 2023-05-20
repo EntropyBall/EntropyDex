@@ -1,6 +1,7 @@
 import React from 'react'
 import PokemonCard from './PokemonCard.js'
 
+// Fusion with App or move logic from App to here
 const PokemonItem = ({ pokemon, accounts, forms }) => {
     // Get base form ("pm[id].icon.png"), RegEx: removes the first 0s
     let baseForm = pokemon.images.find(image => {
