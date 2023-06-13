@@ -46,6 +46,7 @@ const App = () => {
         });
     }, []);
 
+    /* Use <Suspense> to display a loader while loading */
     const PokemonItems = pokemons.map((pokemon) => {
         console.log("PokemonItem in App (901)");
         return (
