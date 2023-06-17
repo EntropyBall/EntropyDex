@@ -1,22 +1,19 @@
-import React, { useState } from 'react'
-import NavList from './NavList'
-import NavButton from './NavButton'
-import NavSearchBar from './NavSearchBar'
+import React, { useState } from "react";
+import NavList from "./NavList";
+import NavButton from "./NavButton";
+import NavSearchBar from "./NavSearchBar";
 
-const NavBar = ({ accounts, setAccounts }) => {
-    const [isShow, setIsShow] = useState(false)
+const NavBar = ({ accounts, setAccounts, pokemons, setPokemons }) => {
+    const [isShow, setIsShow] = useState(false);
 
     const handleClick = () => {
-        setIsShow(prev => !prev)
-    }
+        setIsShow((prev) => !prev);
+    };
 
     return (
-        <nav className='navBar'>
-            <NavSearchBar />
-            <NavButton
-                accounts={accounts}
-                handleClick={handleClick}
-            />
+        <nav className="navBar">
+            <NavSearchBar pokemons={pokemons} setPokemons={setPokemons} />
+            <NavButton accounts={accounts} handleClick={handleClick} />
             <NavList
                 accounts={accounts}
                 setAccounts={setAccounts}
@@ -24,7 +21,7 @@ const NavBar = ({ accounts, setAccounts }) => {
                 handleClick={handleClick}
             />
         </nav>
-    )
-}
+    );
+};
 
-export default NavBar
+export default NavBar;

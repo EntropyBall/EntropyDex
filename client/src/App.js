@@ -48,7 +48,6 @@ const App = () => {
 
     /* Use <Suspense> to display a loader while loading */
     const PokemonItems = pokemons.map((pokemon) => {
-        console.log("PokemonItem in App (901)");
         return (
             <PokemonItem
                 key={uuid()}
@@ -62,7 +61,12 @@ const App = () => {
     /* === JSX === */
     return (
         <>
-            <NavBar accounts={accounts} setAccounts={setAccounts} />
+            <NavBar
+                pokemons={pokemons}
+                setPokemons={setPokemons}
+                accounts={accounts}
+                setAccounts={setAccounts}
+            />
             <div className="items">{PokemonItems}</div>
         </>
     );

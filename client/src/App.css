@@ -1,159 +1,159 @@
-@import url('./font.css');
+@import url("./font.css");
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
-  --item-size: 150;
-  --radius-size: 5px;
+    --item-size: 150;
+    --radius-size: 5px;
 
-  --colorPrimal: #383838;
-  --colorSecondary: #222;
-  --colorNeutral: #333;
+    --colorPrimal: #383838;
+    --colorSecondary: #222;
+    --colorNeutral: #333;
 }
 
 body {
-  font-family: 'Lato';
-  background-color: #333;
-  color: white;
-  width: 100%;
+    font-family: "Lato";
+    background-color: #333;
+    color: white;
+    width: 100%;
 }
 
 .selected {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .navBar {
-  background-color: #383838;
-  width: 100%;
-  height: 6vh;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
+    background-color: #383838;
+    width: 100%;
+    height: 6vh;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .navBar-search {
-  background-color: var(--colorSecondary);
+    background-color: var(--colorSecondary);
+    color: white;
 }
 
 .nav-listAccount {
-  position: absolute;
-  background-color: #222;
-  border: 1px solid #222;
-  display: inline-block;
-  list-style-type: none;
-  top: 55px;
-  font-size: 1rem;
-  z-index: 1;
+    position: absolute;
+    background-color: #222;
+    border: 1px solid #222;
+    display: inline-block;
+    list-style-type: none;
+    top: 55px;
+    font-size: 1rem;
+    z-index: 1;
 }
 
 .nav-listAccount:hover {
-  cursor: pointer;
-  border: 1px solid #424242;
+    cursor: pointer;
+    border: 1px solid #424242;
 }
 
 .nav-buttonAccount {
-  color: inherit;
-  padding: 0.5em;
-  background-color: #222;
-  border: 1px solid #222;
-  font-size: inherit;
-  font-family: inherit;
+    color: inherit;
+    padding: 0.5em;
+    background-color: #222;
+    border: 1px solid #222;
+    font-size: inherit;
+    font-family: inherit;
 }
 
 .nav-itemAccount {
-
-  display: block;
-  padding: 0.5em;
+    display: block;
+    padding: 0.5em;
 }
 
 .nav-itemAccount:hover,
 .nav-itemAccount:active {
-  background-color: #777;
+    background-color: #777;
 }
 
 .items {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fill, 220px);
-  gap: 4px 16px;
-  width: 100%;
-  position: relative;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 220px);
+    gap: 4px 16px;
+    width: 100%;
+    position: relative;
 }
 
 .pokemonCard {
-  background-color: #333;
-  border: 1px grey solid;
-  border-radius: var(--radius-size);
-  width: calc(var(--item-size)* 1px + 70px);
-  height: calc(var(--item-size)* 1px + 20px);
-  margin: 5px;
-  display: grid;
-  grid-template-columns: 30px repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 0px;
-  position: inherit;
+    background-color: #333;
+    border: 1px grey solid;
+    border-radius: var(--radius-size);
+    width: calc(var(--item-size) * 1px + 70px);
+    height: calc(var(--item-size) * 1px + 20px);
+    margin: 5px;
+    display: grid;
+    grid-template-columns: 30px repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 0px;
+    position: inherit;
 }
 
 .pokemonFormBar {
-  grid-column: 1;
-  grid-row: 1 / 5;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-  background-color: #464646;
-  width: 106%;
-  border-top-left-radius: var(--radius-size);
-  border-bottom-left-radius: var(--radius-size);
+    grid-column: 1;
+    grid-row: 1 / 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    background-color: #464646;
+    width: 106%;
+    border-top-left-radius: var(--radius-size);
+    border-bottom-left-radius: var(--radius-size);
 }
 
-.pokemonFormBar>div {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+.pokemonFormBar > div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .pokemonTitle {
-  grid-column: 2 / 5;
-  grid-row: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+    grid-column: 2 / 5;
+    grid-row: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .pokemonImage {
-  grid-column: 2 / 5;
-  grid-row: 2 / 5;
-  transform: scale(calc(var(--item-size) / 280));
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
+    grid-column: 2 / 5;
+    grid-row: 2 / 5;
+    transform: scale(calc(var(--item-size) / 280));
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 
 .name {
-  font-size: small;
-  font-weight: bold;
+    font-size: small;
+    font-weight: bold;
 }
 
 .typesImg {
-  justify-self: flex-end;
+    justify-self: flex-end;
 }
 
-.typesImg>img:first-child {
-  margin-left: 2px;
+.typesImg > img:first-child {
+    margin-left: 2px;
 }
 
 .shiny {
-  background: radial-gradient(#0084ff5b, rgba(128, 128, 128, 0));
+    background: radial-gradient(#0084ff5b, rgba(128, 128, 128, 0));
 }
 
 .lucky {
-  background: radial-gradient(#ffff005b, rgba(128, 128, 128, 0));
+    background: radial-gradient(#ffff005b, rgba(128, 128, 128, 0));
 }
