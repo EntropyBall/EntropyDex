@@ -46,7 +46,7 @@ const App = () => {
         });
     }, []);
 
-    /* Use <Suspense> to display a loader while loading */
+    /* Use <Suspense> to display a loader */
     const PokemonItems = pokemons.map((pokemon) => {
         return (
             <PokemonItem
@@ -63,7 +63,6 @@ const App = () => {
         <>
             <NavBar
                 pokemons={pokemons}
-                setPokemons={setPokemons}
                 accounts={accounts}
                 setAccounts={setAccounts}
             />
