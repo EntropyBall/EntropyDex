@@ -46,7 +46,7 @@ const App = () => {
         });
     }, []);
 
-    /* Use <Suspense> to display a loader */
+    /* Use <Suspense> to display a loader while loading*/
     const PokemonItems = pokemons.map((pokemon) => {
         return (
             <PokemonItem
