@@ -38,6 +38,7 @@ body {
 }
 
 .navBar-search {
+    all: unset;
     background-color: var(--colorSecondary);
     color: white;
 }

@@ -45,6 +45,20 @@ const App = () => {
             setForms(form);
         });
     }, []);
+    const handleChange = (e) => {
+        setSearch(e.target.value);
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            if (search === "") {
+                setPokemons(pokemons);
+                return;
+            }
+            const filteredPokemons = pokemons.filter((pokemon) =>
+                pokemon.name.toLowerCase().includes(search.toLowerCase())
+            );
+            setPokemons(filteredPokemons);
+        }, 1000);
+    };
 
     /* Use <Suspense> to display a loader while loading*/
     const PokemonItems = pokemons.map((pokemon) => {
