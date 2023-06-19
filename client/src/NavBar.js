@@ -3,7 +3,7 @@ import NavList from "./NavList";
 import NavButton from "./NavButton";
 import NavSearchBar from "./NavSearchBar";
 
-const NavBar = ({ accounts, setAccounts, pokemons, setPokemons }) => {
+const NavBar = ({ accounts, setAccounts, setSearch }) => {
     const [isShow, setIsShow] = useState(false);
 
     const handleClick = () => {
@@ -12,7 +12,7 @@ const NavBar = ({ accounts, setAccounts, pokemons, setPokemons }) => {
 
     return (
         <nav className="navBar">
-            <NavSearchBar pokemons={pokemons} setPokemons={setPokemons} />
+            <NavSearchBar setSearch={setSearch} />
             <NavButton accounts={accounts} handleClick={handleClick} />
             <NavList
                 accounts={accounts}

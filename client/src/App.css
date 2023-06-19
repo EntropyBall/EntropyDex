@@ -32,6 +32,7 @@ body {
     height: 6vh;
     position: relative;
     display: flex;
+    gap: 2em;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
@@ -39,8 +40,14 @@ body {
 
 .navBar-search {
     all: unset;
+    font-family: "Lato";
+    min-width: 20%;
     background-color: var(--colorSecondary);
     color: white;
+    border-radius: var(--radius-size);
+    border: 1px solid #222;
+    padding: 0.5em;
+    align-self: center;
 }
 
 .nav-listAccount {

@@ -1,9 +1,8 @@
 import "./App.css";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import axios from "axios";
-import PokemonItem from "./PokemonItem.js";
 import NavBar from "./NavBar";
-const { v4: uuid } = require("uuid");
+import Pokemons from "./Pokemons";
 
 const App = () => {
     const [pokemons, setPokemons] = useState([]);
@@ -20,7 +19,7 @@ const App = () => {
         },
     ]);
     const [forms, setForms] = useState(new Map());
-
+    const [search, setSearch] = useState("");
     useEffect(() => {
         // Local Endpoint API
         axios
@@ -45,42 +44,24 @@ const App = () => {
             setForms(form);
         });
     }, []);
-    const handleChange = (e) => {
-        setSearch(e.target.value);
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            if (search === "") {
-                setPokemons(pokemons);
-                return;
-            }
-            const filteredPokemons = pokemons.filter((pokemon) =>
-                pokemon.name.toLowerCase().includes(search.toLowerCase())
-            );
-            setPokemons(filteredPokemons);
-        }, 1000);
-    };
+
+    const handleSearch = (search) => {};
 
     /* Use <Suspense> to display a loader while loading*/
-    const PokemonItems = pokemons.map((pokemon) => {
-        return (
-            <PokemonItem
-                key={uuid()}
-                pokemon={pokemon}
-                accounts={accounts}
-                forms={forms}
-            />
-        );
-    });
-
     /* === JSX === */
     return (
         <>
             <NavBar
-                pokemons={pokemons}
+                setSearch={setSearch}
                 accounts={accounts}
                 setAccounts={setAccounts}
             />
-            <div className="items">{PokemonItems}</div>
+            <Pokemons
+                pokemons={pokemons}
+                forms={forms}
+                accounts={accounts}
+                search={search}
+            />
         </>
     );
 };
