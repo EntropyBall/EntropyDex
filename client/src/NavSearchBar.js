@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 /* Use debounce for search -> wait till user finish typing */
 const NavSearchBar = ({ setSearch }) => {
@@ -10,20 +10,22 @@ const NavSearchBar = ({ setSearch }) => {
      */
     const [text, setText] = useState("");
     let timeoutId;
-    const handleChange = (event) => {
-        const value = event.target.value.toLowerCase();
-        setText(value);
-        clearTimeout(timeoutId);
+
+    /* Debounce function: wait 300ms before re-rendering <Pokemons /> with the search string */
+    useEffect(() => {
         timeoutId = setTimeout(() => {
-            setSearch(value);
+            setSearch(text);
         }, 300);
-    };
+        return () => clearTimeout(timeoutId);
+    }, [text]);
+
     return (
         <input
             className="navBar-search"
             type="text"
-            onChange={handleChange}
+            onChange={(event) => setText(event.target.value)}
             value={text}
+            placeholder="Search"
         />
     );
 };

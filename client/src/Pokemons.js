@@ -6,7 +6,7 @@ const Pokemons = ({ pokemons, accounts, forms, search }) => {
     let filteredItems = pokemons;
     if (search) {
         filteredItems = pokemons.filter((pokemon) =>
-            pokemon.name.toLowerCase().includes(search.toLowerCase())
+            pokemon.name.toLowerCase().startsWith(search.toLowerCase())
         );
     }
     const pokemonItems = filteredItems.map((pokemon) => {
@@ -23,18 +23,3 @@ const Pokemons = ({ pokemons, accounts, forms, search }) => {
 };
 
 export default Pokemons;
-/*
-clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            if (search === "") {
-                // Render all pokemon
-                return;
-            } else {
-                // Render filtered pokemon
-                const filteredPokemons = pokemons.filter((pokemon) =>
-                    pokemon.name.toLowerCase().includes(search.toLowerCase())
-                );
-            }
-        }, 1000);
-
-        */
